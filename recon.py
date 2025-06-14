@@ -57,8 +57,8 @@ CUSTOM_HEADERS = {
 
 # Configurações de API
 API_KEYS = {
-    "SECURITYTRAILS": os.getenv("SECURITYTRAILS_API_KEY", "zBJY3mBiQtGwNpEYAJ10i7FvWRoIOZRz"),
-    "SHODAN": os.getenv("SHODAN_API_KEY", "srDJDmKyhE8tD6IrWQAwgN8h50njqi6U"),
+    "SECURITYTRAILS": os.getenv("SECURITYTRAILS_API_KEY", ""),
+    "SHODAN": os.getenv("SHODAN_API_KEY", ""),
     "GOOGLE_API_KEY": os.getenv("GOOGLE_API_KEY", ""),
     "GOOGLE_CSE_ID": os.getenv("GOOGLE_CSE_ID", "")
 }
