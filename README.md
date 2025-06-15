@@ -282,16 +282,7 @@ We welcome contributions from the cybersecurity community:
 ---
 
 ### 🔗 Professional Links
-- **LinkedIn**: [Connect with Caio](https://linkedin.com/in/pentester-caio)
 - **GitHub**: [CHDEVSEC](https://github.com/chdevsec)
-- **Blog**: [Cybersecurity Insights](https://chdevsec.blog)
-
----
-
-### 📞 Contact & Support
-- **Email**: contact@chdevsec.com
-- **Twitter**: [@CHDEVSEC](https://twitter.com/chdevsec)
-- **Telegram**: [@PentesterCaio](https://t.me/pentestercaio)
 
 ---
 
