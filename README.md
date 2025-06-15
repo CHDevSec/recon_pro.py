@@ -1,301 +1,383 @@
-# 🔍 Professional Web Reconnaissance & Security Assessment Tool
+# 🔍 Professional Web Recon - Advanced Subdomain Discovery & Vulnerability Scanner
 
-[![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/license-Educational%20Use%20Only-red.svg)](#legal-disclaimer)
-[![Penetration Testing](https://img.shields.io/badge/pentest-reconnaissance-green.svg)](https://github.com)
-[![Web Security](https://img.shields.io/badge/web%20security-vulnerability%20assessment-orange.svg)](https://github.com)
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/chdevsec/professional-web-recon.svg)](https://github.com/chdevsec/professional-web-recon/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/chdevsec/professional-web-recon.svg)](https://github.com/chdevsec/professional-web-recon/stargazers)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/chdevsec/professional-web-recon/graphs/commit-activity)
 
-> **Advanced Web Reconnaissance Framework for Cybersecurity Professionals, Penetration Testers, and Bug Bounty Hunters**
+> **Advanced web reconnaissance tool for penetration testing and bug bounty hunting**
+
+A comprehensive web reconnaissance tool that combines subdomain discovery, directory fuzzing, vulnerability detection, and Google Dorking in a single automated solution.
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Configuration](#api-configuration)
-- [Advanced Features](#advanced-features)
-- [Output & Reporting](#output--reporting)
-- [SEO Keywords](#seo-keywords)
-- [Legal Disclaimer](#legal-disclaimer)
-- [Educational Purpose](#educational-purpose)
-- [Contributing](#contributing)
-- [Author](#author)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Basic Usage](#-basic-usage)
+- [Advanced Features](#-advanced-features)
+- [Reports](#-reports)
+- [Supported APIs](#-supported-apis)
+- [Integrated Tools](#-integrated-tools)
+- [Usage Examples](#-usage-examples)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-## 🎯 Overview
+## 🚀 Features
 
-This **Professional Web Reconnaissance Tool** is a comprehensive Python-based framework designed for **cybersecurity professionals**, **penetration testers**, **bug bounty hunters**, and **security researchers**. The tool performs automated **subdomain enumeration**, **web fuzzing**, **vulnerability detection**, **technology fingerprinting**, and **Google dorking** to provide detailed security assessments of web applications and domains.
+### Subdomain Discovery
+- **Multiple sources**: Integration with Subfinder, Assetfinder, Amass, Findomain
+- **External APIs**: SecurityTrails, Shodan, crt.sh
+- **DNS Brute Force**: Custom wordlist with common subdomains
+- **Status verification**: HTTP/HTTPS connectivity testing
 
-Perfect for **OSINT (Open Source Intelligence)**, **web application security testing**, **penetration testing**, **bug bounty hunting**, and **cybersecurity research**.
+### Technology Detection
+- **Fingerprinting**: Automatic web technology identification
+- **Headers analysis**: HTTP headers analysis
+- **Content detection**: Content-based detection
+- **Framework detection**: WordPress, Drupal, Laravel, React, Angular, etc.
 
-## ✨ Key Features
+### Fuzzing and Path Discovery
+- **Directory fuzzing**: Administrative directory search
+- **Sensitive files**: Detection of sensitive files (.env, .git, backups)
+- **Login pages**: Automatic login page identification
+- **Specific payloads**: XSS and SQLi by technology
 
-### 🔍 Subdomain Discovery & Enumeration
-- **Multi-tool integration**: Subfinder, Assetfinder, Amass, Findomain
-- **Certificate transparency**: crt.sh integration
-- **DNS brute forcing** with custom wordlists
-- **API-powered discovery**: SecurityTrails, Shodan integration
-- **Advanced DNS resolution** with timeout handling
+### Vulnerability Detection
+- **XSS Detection**: Automated Cross-Site Scripting tests
+- **SQL Injection**: Basic SQLi detection
+- **Information Disclosure**: Sensitive information leakage
+- **Misconfigurations**: Incorrect configuration detection
 
-### 🌐 Web Application Reconnaissance
-- **Technology fingerprinting**: WordPress, Drupal, Laravel, React, Angular, etc.
-- **SSL/TLS certificate analysis**
-- **HTTP header analysis** and security header detection
-- **Login page detection** and authentication endpoint discovery
-- **Content Management System (CMS) detection**
+### Google Dorking
+- **Automated dorks**: Automatic Google Dorks execution
+- **Categorized search**: Search for login pages, sensitive files, admin panels
+- **API integration**: Google Custom Search API support
 
-### 🎯 Advanced Web Fuzzing
-- **Directory and file fuzzing** with custom wordlists
-- **Admin panel discovery**: /admin, /wp-admin, /administrator, etc.
-- **Sensitive file detection**: .env, .git, backup files, configuration files
-- **Technology-specific payload testing**
-- **Multi-threaded fuzzing** for improved performance
-
-### 🚨 Vulnerability Detection
-- **XSS (Cross-Site Scripting)** payload testing
-- **SQL Injection** signature detection
-- **Remote Code Execution (RCE)** indicators
-- **Local File Inclusion (LFI)** testing
-- **CORS misconfiguration** detection
-- **Debug mode and credential leak** detection
-
-### 🔎 Google Dorking & OSINT
-- **Automated Google dorking** for sensitive information
-- **Login page discovery** through search engines
-- **Sensitive file exposure** detection
-- **Admin panel identification** via search queries
-- **API integration** with Google Custom Search
-
-### 📊 Professional Reporting
-- **HTML report generation** with professional styling
-- **Vulnerability categorization** and risk assessment
-- **Technology stack visualization**
-- **Actionable security recommendations**
-- **Export-ready documentation**
+### Reports
+- **HTML Report**: Professional HTML report
+- **Detailed findings**: Detailed information about discoveries
+- **Vulnerability classification**: Classification of found vulnerabilities
+- **Actionable recommendations**: Security recommendations
 
 ## 🛠️ Installation
 
 ### Prerequisites
-- **Python 3.6+**
-- **pip package manager**
-- **Git** (for cloning repository)
 
-### Required Python Packages
 ```bash
-pip install requests dnspython concurrent-futures
+# Python 3.7 or higher
+python3 --version
+
+# Pip package manager
+pip3 --version
 ```
 
-### Optional External Tools (Recommended)
-```bash
-# Install Go (required for some tools)
-# Ubuntu/Debian
-sudo apt update && sudo apt install golang-go
+### Dependencies Installation
 
-# Install reconnaissance tools
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/tomnomnom/assetfinder@latest
-go install -v github.com/OWASP/Amass/v3/...@latest
-go install -v github.com/findomain/findomain@latest
-```
-
-### Clone Repository
 ```bash
-git clone https://github.com/yourusername/professional-web-recon.git
+# Clone the repository
+git clone https://github.com/chdevsec/professional-web-recon.git
 cd professional-web-recon
-chmod +x recon_tool.py
+
+# Install Python dependencies
+pip3 install -r requirements.txt
 ```
 
-## 🚀 Usage
-
-### Basic Usage
-```bash
-python3 recon_tool.py example.com
+### Requirements.txt
+```txt
+requests>=2.25.1
+dnspython>=2.1.0
+urllib3>=1.26.0
 ```
 
-### Advanced Usage with Specific Dork Types
-```bash
-# All reconnaissance techniques
-python3 recon_tool.py target-domain.com --dork-type all
+### External Tools (Optional)
 
-# Focus on login pages
-python3 recon_tool.py target-domain.com --dork-type login
-
-# Sensitive files discovery
-python3 recon_tool.py target-domain.com --dork-type files
-
-# Admin panel discovery
-python3 recon_tool.py target-domain.com --dork-type admin
-```
-
-### Technology-Specific Testing
-The tool prompts for target technology selection:
-1. **PHP** - WordPress, Laravel, custom PHP applications
-2. **Node.js** - Express.js, custom Node applications
-3. **Next.js** - React-based applications
-4. **Angular** - Angular applications
-5. **Django** - Python Django applications
-6. **Flask** - Python Flask applications
-7. **Ruby on Rails** - Ruby applications
-8. **Generic** - Technology-agnostic testing
-
-## 🔑 API Configuration
-
-### Environment Variables Setup
-Create a `.env` file or set environment variables:
+For maximum effectiveness, install the following tools:
 
 ```bash
-export SECURITYTRAILS_API_KEY="your_securitytrails_api_key"
-export SHODAN_API_KEY="your_shodan_api_key"
-export GOOGLE_API_KEY="your_google_api_key"
-export GOOGLE_CSE_ID="your_google_custom_search_engine_id"
+# Subfinder
+GO111MODULE=on go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+# Assetfinder
+go install github.com/tomnomnom/assetfinder@latest
+
+# Amass
+go install -v github.com/OWASP/Amass/v3/...@master
+
+# Findomain
+wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux
+chmod +x findomain-linux
+sudo mv findomain-linux /usr/local/bin/findomain
 ```
 
-### API Providers
-- **SecurityTrails**: Advanced subdomain discovery
-- **Shodan**: Host information and additional subdomains
-- **Google Custom Search**: Automated dorking with official API
+## ⚙️ Configuration
+
+### Environment Variables
+
+Configure your API keys as environment variables:
+
+```bash
+# SecurityTrails
+export SECURITYTRAILS_API_KEY="your_key_here"
+
+# Shodan
+export SHODAN_API_KEY="your_key_here"
+
+# Google Custom Search
+export GOOGLE_API_KEY="your_key_here"
+export GOOGLE_CSE_ID="your_cse_id_here"
+```
+
+### Script Configuration
+
+Alternatively, edit the script directly:
+
+```python
+API_KEYS = {
+    "SECURITYTRAILS": "your_securitytrails_key",
+    "SHODAN": "your_shodan_key", 
+    "GOOGLE_API_KEY": "your_google_key",
+    "GOOGLE_CSE_ID": "your_google_cse_id"
+}
+```
+
+## 🎯 Basic Usage
+
+### Basic Syntax
+
+```bash
+python3 web_recon.py <domain> [options]
+```
+
+### Simple Examples
+
+```bash
+# Basic reconnaissance
+python3 web_recon.py example.com
+
+# With specific Google Dorks type
+python3 web_recon.py example.com --dork-type login
+
+# Sensitive files only
+python3 web_recon.py example.com --dork-type files
+```
 
 ## 🔧 Advanced Features
 
-### Custom Wordlists
-The tool includes comprehensive wordlists for:
-- **Common subdomains**: www, mail, api, admin, test, dev, staging
-- **Admin paths**: /admin, /wp-admin, /administrator, /manager
-- **Sensitive files**: .env, .git/config, backup files, configuration files
+### Technology Selection
 
-### Multi-threading Configuration
-- **Default threads**: 20 concurrent connections
-- **Timeout settings**: 10 seconds per request
-- **Rate limiting**: Built-in delays to avoid blocking
-- **User-Agent rotation**: Multiple browser signatures
+The script offers specific payloads for different technologies:
 
-### Vulnerability Signatures
-Advanced pattern matching for:
-- **SQL Injection**: MySQL, MSSQL, PostgreSQL error patterns
-- **XSS vulnerabilities**: Script injection and DOM manipulation
-- **File inclusion**: Path traversal and local file access
-- **Debug information**: Development mode exposure
-- **Credential leakage**: API keys, database credentials
+1. **PHP** - Optimized payloads for PHP applications
+2. **Node.js** - Specific tests for Node.js
+3. **Next.js** - Payloads for Next.js applications
+4. **Angular** - Specific tests for Angular
+5. **Django** - Payloads for Django (Python)
+6. **Flask** - Tests for Flask (Python)
+7. **Ruby on Rails** - Payloads for Rails
+8. **Generic** - Universal payloads
 
-## 📈 Output & Reporting
+### Google Dorks Types
 
-### Generated Files
-- **HTML Report**: `recon_results/recon_report_domain.html`
-- **Screenshots**: `recon_results/screenshots/` (if enabled)
-- **Raw Data**: JSON format for further analysis
+- `all`: Executes all types of dorks
+- `login`: Focuses on login pages
+- `files`: Searches for sensitive files
+- `admin`: Looks for administrative panels
 
-### Report Sections
-1. **Executive Summary**: High-level findings and statistics
-2. **Active Subdomains**: Live hosts with technology fingerprinting
-3. **Sensitive Paths**: Discovered endpoints and potential vulnerabilities
-4. **Google Dorks**: OSINT findings and exposed information
-5. **Security Recommendations**: Actionable remediation steps
+### Advanced Settings
 
-## 🏷️ SEO Keywords
+```python
+# Number of threads
+THREADS = 20
 
-**Primary Keywords**: web reconnaissance, subdomain enumeration, penetration testing, vulnerability scanner, web security assessment, bug bounty tools, OSINT tools, cybersecurity reconnaissance
+# Request timeout
+TIMEOUT = 10
 
-**Secondary Keywords**: directory fuzzing, technology fingerprinting, Google dorking, SSL certificate analysis, web application security, ethical hacking tools, security testing automation, penetration testing framework
+# Output directory
+OUTPUT_DIR = "recon_results"
+```
 
-**Long-tail Keywords**: automated web reconnaissance tool python, professional subdomain discovery script, advanced web fuzzing framework, cybersecurity assessment automation, bug bounty reconnaissance toolkit, web application vulnerability detection
+## 📊 Reports
 
-**Technical Keywords**: DNS enumeration, HTTP header analysis, XSS detection, SQL injection testing, CORS misconfiguration, certificate transparency, web scraping security, API-based reconnaissance
+### HTML Report Structure
 
-## ⚖️ Legal Disclaimer
+The generated report includes:
 
-### 🚨 IMPORTANT LEGAL NOTICE
+- **Executive summary**: General reconnaissance statistics
+- **Active subdomains**: Complete list with status and technologies
+- **Sensitive paths**: Discovered sensitive URLs
+- **Vulnerabilities**: Identified potential vulnerabilities
+- **Google Dorks**: Google search results
+- **Recommendations**: Correction suggestions
 
-**This tool is provided for educational and authorized testing purposes only.**
+### File Locations
 
-### Authorized Use Only
-- ✅ **Authorized penetration testing** with proper written consent
-- ✅ **Educational purposes** in controlled environments
-- ✅ **Security research** on owned systems
-- ✅ **Bug bounty programs** with explicit scope authorization
-- ✅ **Cybersecurity training** and certification preparation
+```
+recon_results/
+├── recon_report_example.com.html
+└── screenshots/
+```
 
-### Prohibited Activities
-- ❌ **Unauthorized scanning** of systems you do not own
-- ❌ **Malicious activities** or attacks against third parties
-- ❌ **Violation of terms of service** of target applications
-- ❌ **Any illegal activities** under local, state, or federal law
-- ❌ **Commercial use** without proper licensing and authorization
+## 🔌 Supported APIs
 
-### User Responsibilities
-By using this tool, you acknowledge and agree that:
+### SecurityTrails
+- **Functionality**: Subdomain discovery
+- **Limit**: Varies by plan
+- **Registration**: [securitytrails.com](https://securitytrails.com)
 
-1. **You have explicit written authorization** to test the target systems
-2. **You will comply with all applicable laws** and regulations
-3. **You understand the ethical implications** of security testing
-4. **You will not use this tool for malicious purposes**
-5. **You accept full responsibility** for your actions and their consequences
+### Shodan
+- **Functionality**: Host and subdomain information
+- **Limit**: 100 queries/month (free)
+- **Registration**: [shodan.io](https://shodan.io)
 
-### Legal Compliance
-- Ensure compliance with **Computer Fraud and Abuse Act (CFAA)** in the US
-- Follow **GDPR** and privacy regulations in Europe
-- Respect **local cybersecurity laws** in your jurisdiction
-- Obtain **proper authorization** before conducting any security testing
-- Maintain **professional ethics** in cybersecurity practices
+### Google Custom Search
+- **Functionality**: Automated Google Dorking
+- **Limit**: 100 queries/day (free)
+- **Registration**: [developers.google.com](https://developers.google.com/custom-search)
 
-## 🎓 Educational Purpose
+### crt.sh
+- **Functionality**: SSL/TLS certificates
+- **Limit**: No limit
+- **Registration**: Not required
 
-This tool is designed for:
-- **Cybersecurity education** and skill development
-- **Penetration testing certification** preparation (CEH, OSCP, CISSP)
-- **University coursework** in cybersecurity and ethical hacking
-- **Professional development** for security practitioners
-- **Research purposes** in academic and corporate environments
+## 🛡️ Integrated Tools
 
-### Learning Objectives
-- Understanding **web application reconnaissance** methodologies
-- Learning **automated security testing** techniques
-- Practicing **OSINT (Open Source Intelligence)** gathering
-- Developing **vulnerability assessment** skills
-- Mastering **professional reporting** for security findings
+| Tool | Function | Status |
+|------|----------|--------|
+| Subfinder | Subdomain discovery | ✅ Integrated |
+| Assetfinder | Asset enumeration | ✅ Integrated |
+| Amass | Passive reconnaissance | ✅ Integrated |
+| Findomain | Domain search | ✅ Integrated |
+| DNSPython | DNS resolution | ✅ Integrated |
+
+## 💡 Usage Examples
+
+### Scenario 1: Bug Bounty Hunting
+
+```bash
+# Complete reconnaissance for bug bounty
+python3 web_recon.py target.com
+
+# Focus on login pages
+python3 web_recon.py target.com --dork-type login
+```
+
+### Scenario 2: Web Application Pentest
+
+```bash
+# Reconnaissance focused on PHP application
+python3 web_recon.py webapp.com
+# Select option "1" for PHP when prompted
+```
+
+### Scenario 3: Security Audit
+
+```bash
+# Search for exposed sensitive files
+python3 web_recon.py company.com --dork-type files
+```
+
+## 🔍 Vulnerability Detection
+
+### Supported Types
+
+- **XSS (Cross-Site Scripting)**
+  - Reflected XSS
+  - Technology-specific payloads
+  
+- **SQL Injection**
+  - Error-based detection
+  - Time-based detection
+  
+- **Information Disclosure**
+  - Configuration files
+  - Application logs
+  - Exposed credentials
+  
+- **Misconfigurations**
+  - CORS misconfiguration
+  - Debug mode enabled
+  - Directory listing
+
+## 🎨 Customization
+
+### Adding New Payloads
+
+```python
+PAYLOADS = {
+    "XSS": {
+        "your_technology": [
+            "payload1",
+            "payload2"
+        ]
+    }
+}
+```
+
+### Customizing Wordlists
+
+```python
+COMMON_SUBDOMAINS = [
+    "api", "admin", "test", "dev",
+    # Add your custom subdomains
+]
+```
 
 ## 🤝 Contributing
 
-We welcome contributions from the cybersecurity community:
+Contributions are welcome! To contribute:
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Contribution Guidelines
-- Follow **PEP 8** Python coding standards
-- Add **comprehensive documentation** for new features
-- Include **error handling** and **input validation**
-- Test on **multiple target types** and environments
-- Maintain **ethical standards** and **legal compliance**
+### Types of Contributions
 
-## 👨‍💻 Author
+- 🐛 Bug fixes
+- ✨ New features
+- 📚 Documentation improvements
+- 🔧 Performance optimizations
+- 🛡️ Security improvements
 
-**Pentester Caio | CHDEVSEC**
+## ⚠️ Legal Disclaimer
 
-- **Professional Penetration Tester**
-- **Cybersecurity Researcher**  
-- **Web Application Security Specialist**
-- **Bug Bounty Hunter**
+This tool was developed for educational purposes and authorized security testing. The use of this tool is entirely the user's responsibility. Make sure you have explicit authorization before testing any system.
+
+### Responsible Use
+
+- ✅ Test only on your own systems or with explicit authorization
+- ✅ Respect the terms of service of the APIs used
+- ✅ Use rate limiting to avoid server overload
+- ❌ Do not use for malicious or illegal activities
+
+## 🏆 Acknowledgments
+
+- **ProjectDiscovery** for excellent reconnaissance tools
+- **OWASP** for the Amass project
+- **Shodan** for the intelligence API
+- **SecurityTrails** for DNS data
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-### 🔗 Professional Links
-- **GitHub**: [CHDEVSEC](https://github.com/chdevsec)
+<div align="center">
+
+### 🔒 Developed by [CHDEVSEC](https://github.com/chdevsec) | Pentester Caio
+
+**⭐ If this project was useful to you, consider giving it a star!**
+
+[![GitHub followers](https://img.shields.io/github/followers/chdevsec.svg?style=social&label=Follow)](https://github.com/chdevsec)
+
+</div>
 
 ---
 
-## 🏆 Recognition
+## 📚 Tags and Keywords
 
-*"Advanced reconnaissance is the foundation of effective penetration testing. This tool embodies professional-grade automation for cybersecurity professionals."*
-
----
-
-**⭐ If this tool helped you in your cybersecurity journey, please consider starring the repository!**
-
----
-
-*© 2024 CHDEVSEC - Professional Cybersecurity Tools. All rights reserved.*
-
-*This project is licensed under Educational Use License - see the [LICENSE](LICENSE) file for details.*
+`pentest` `reconnaissance` `subdomain-enumeration` `vulnerability-scanner` `bug-bounty` `cybersecurity` `web-security` `ethical-hacking` `security-testing` `python` `automation` `google-dorking` `dns-enumeration` `web-fuzzing` `security-audit` `information-gathering` `osint` `red-team` `penetration-testing` `security-tools` `recon` `subdomain-discovery` `web-reconnaissance` `pentesting-tools` `security-scanner` `vulnerability-assessment` `web-application-security` `subdomain-takeover` `directory-bruteforce` `sensitive-file-detection`
