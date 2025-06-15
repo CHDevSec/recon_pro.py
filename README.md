@@ -1,280 +1,310 @@
-# 🔍 Recon Web Profissional
+# 🔍 Professional Web Reconnaissance & Security Assessment Tool
 
-Uma ferramenta completa de reconhecimento web automatizado para descoberta de subdomínios, fuzzing de diretórios e detecção de vulnerabilidades.
+[![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/license-Educational%20Use%20Only-red.svg)](#legal-disclaimer)
+[![Penetration Testing](https://img.shields.io/badge/pentest-reconnaissance-green.svg)](https://github.com)
+[![Web Security](https://img.shields.io/badge/web%20security-vulnerability%20assessment-orange.svg)](https://github.com)
 
-## 📋 Índice
+> **Advanced Web Reconnaissance Framework for Cybersecurity Professionals, Penetration Testers, and Bug Bounty Hunters**
 
-- [Sobre](#sobre)
-- [Características](#características)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [APIs Suportadas](#apis-suportadas)
-- [Configuração](#configuração)
-- [Exemplos](#exemplos)
-- [Resultados](#resultados)
-- [Disclaimer](#disclaimer)
-- [Contribuições](#contribuições)
-- [Licença](#licença)
+## 📋 Table of Contents
 
-## 🎯 Sobre
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Configuration](#api-configuration)
+- [Advanced Features](#advanced-features)
+- [Output & Reporting](#output--reporting)
+- [SEO Keywords](#seo-keywords)
+- [Legal Disclaimer](#legal-disclaimer)
+- [Educational Purpose](#educational-purpose)
+- [Contributing](#contributing)
+- [Author](#author)
 
-O **Recon Web Profissional** é uma ferramenta de linha de comando desenvolvida para profissionais de segurança cibernética que precisam realizar reconhecimento automatizado de aplicações web. A ferramenta combina múltiplas técnicas de descoberta de subdomínios, fuzzing inteligente e detecção de vulnerabilidades básicas.
+## 🎯 Overview
 
-### Desenvolvido por
-**Pentester Caio | CHDEVSEC**
+This **Professional Web Reconnaissance Tool** is a comprehensive Python-based framework designed for **cybersecurity professionals**, **penetration testers**, **bug bounty hunters**, and **security researchers**. The tool performs automated **subdomain enumeration**, **web fuzzing**, **vulnerability detection**, **technology fingerprinting**, and **Google dorking** to provide detailed security assessments of web applications and domains.
 
-## ✨ Características
+Perfect for **OSINT (Open Source Intelligence)**, **web application security testing**, **penetration testing**, **bug bounty hunting**, and **cybersecurity research**.
 
-### 🔍 Descoberta de Subdomínios
-- **Ferramentas Externas**: Integração com Subfinder, Assetfinder, Amass e Findomain
-- **APIs**: SecurityTrails, Shodan, crt.sh
-- **DNS Brute Force**: Lista personalizada de subdomínios comuns
-- **Verificação de Status**: Teste automático de disponibilidade
+## ✨ Key Features
 
-### 🌐 Análise de Tecnologias
-- Detecção automática de tecnologias web (WordPress, Laravel, React, etc.)
-- Análise de headers HTTP e cookies
-- Extração de títulos de páginas
-- Informações de certificados SSL/TLS
+### 🔍 Subdomain Discovery & Enumeration
+- **Multi-tool integration**: Subfinder, Assetfinder, Amass, Findomain
+- **Certificate transparency**: crt.sh integration
+- **DNS brute forcing** with custom wordlists
+- **API-powered discovery**: SecurityTrails, Shodan integration
+- **Advanced DNS resolution** with timeout handling
 
-### 🔎 Fuzzing Inteligente
-- **Paths Administrativos**: Descoberta de painéis admin
-- **Arquivos Sensíveis**: Busca por .env, backups, logs
-- **Páginas de Login**: Detecção automática de formulários
-- **Payloads Específicos**: XSS e SQLi baseados na tecnologia detectada
+### 🌐 Web Application Reconnaissance
+- **Technology fingerprinting**: WordPress, Drupal, Laravel, React, Angular, etc.
+- **SSL/TLS certificate analysis**
+- **HTTP header analysis** and security header detection
+- **Login page detection** and authentication endpoint discovery
+- **Content Management System (CMS) detection**
 
-### 🕵️ Google Dorks
-- Busca automatizada por:
-  - Páginas de login expostas
-  - Arquivos sensíveis indexados
-  - Painéis administrativos
-  - Credenciais vazadas
+### 🎯 Advanced Web Fuzzing
+- **Directory and file fuzzing** with custom wordlists
+- **Admin panel discovery**: /admin, /wp-admin, /administrator, etc.
+- **Sensitive file detection**: .env, .git, backup files, configuration files
+- **Technology-specific payload testing**
+- **Multi-threaded fuzzing** for improved performance
 
-### 📊 Relatórios Profissionais
-- **HTML Interativo**: Relatório visual completo
-- **Categorização**: Organização por tipo de descoberta
-- **Links Diretos**: Acesso rápido aos recursos encontrados
-- **Recomendações**: Sugestões de segurança
+### 🚨 Vulnerability Detection
+- **XSS (Cross-Site Scripting)** payload testing
+- **SQL Injection** signature detection
+- **Remote Code Execution (RCE)** indicators
+- **Local File Inclusion (LFI)** testing
+- **CORS misconfiguration** detection
+- **Debug mode and credential leak** detection
 
-## 🛠 Pré-requisitos
+### 🔎 Google Dorking & OSINT
+- **Automated Google dorking** for sensitive information
+- **Login page discovery** through search engines
+- **Sensitive file exposure** detection
+- **Admin panel identification** via search queries
+- **API integration** with Google Custom Search
 
-### Obrigatórios
-- Python 3.6+
-- pip (gerenciador de pacotes Python)
+### 📊 Professional Reporting
+- **HTML report generation** with professional styling
+- **Vulnerability categorization** and risk assessment
+- **Technology stack visualization**
+- **Actionable security recommendations**
+- **Export-ready documentation**
 
-### Opcionais (para máxima eficiência)
+## 🛠️ Installation
+
+### Prerequisites
+- **Python 3.6+**
+- **pip package manager**
+- **Git** (for cloning repository)
+
+### Required Python Packages
 ```bash
-# Ferramentas de descoberta de subdomínios
+pip install requests dnspython concurrent-futures
+```
+
+### Optional External Tools (Recommended)
+```bash
+# Install Go (required for some tools)
+# Ubuntu/Debian
+sudo apt update && sudo apt install golang-go
+
+# Install reconnaissance tools
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install github.com/tomnomnom/assetfinder@latest
-snap install amass
-wget https://github.com/Findomain/Findomain/releases/latest/download/findomain-linux
+go install -v github.com/tomnomnom/assetfinder@latest
+go install -v github.com/OWASP/Amass/v3/...@latest
+go install -v github.com/findomain/findomain@latest
 ```
 
-## 📦 Instalação
-
-1. **Clone o repositório:**
+### Clone Repository
 ```bash
-git clone https://github.com/seu-usuario/recon-web-profissional.git
-cd recon-web-profissional
+git clone https://github.com/yourusername/professional-web-recon.git
+cd professional-web-recon
+chmod +x recon_tool.py
 ```
 
-2. **Instale as dependências Python:**
+## 🚀 Usage
+
+### Basic Usage
 ```bash
-pip install -r requirements.txt
+python3 recon_tool.py example.com
 ```
 
-3. **Torne o script executável:**
+### Advanced Usage with Specific Dork Types
 ```bash
-chmod +x recon.py
+# All reconnaissance techniques
+python3 recon_tool.py target-domain.com --dork-type all
+
+# Focus on login pages
+python3 recon_tool.py target-domain.com --dork-type login
+
+# Sensitive files discovery
+python3 recon_tool.py target-domain.com --dork-type files
+
+# Admin panel discovery
+python3 recon_tool.py target-domain.com --dork-type admin
 ```
 
-### Dependências Python (requirements.txt)
-```
-requests>=2.25.0
-dnspython>=2.1.0
-```
+### Technology-Specific Testing
+The tool prompts for target technology selection:
+1. **PHP** - WordPress, Laravel, custom PHP applications
+2. **Node.js** - Express.js, custom Node applications
+3. **Next.js** - React-based applications
+4. **Angular** - Angular applications
+5. **Django** - Python Django applications
+6. **Flask** - Python Flask applications
+7. **Ruby on Rails** - Ruby applications
+8. **Generic** - Technology-agnostic testing
 
-## 🚀 Uso
+## 🔑 API Configuration
 
-### Uso Básico
-```bash
-python3 recon.py exemplo.com
-```
-
-### Uso Avançado
-```bash
-# Especificar tipo de Google Dorks
-python3 recon.py exemplo.com --dork-type login
-python3 recon.py exemplo.com --dork-type files
-python3 recon.py exemplo.com --dork-type admin
-```
-
-### Seleção de Tecnologia
-Durante a execução, você pode selecionar a tecnologia alvo:
-1. PHP
-2. Node.js
-3. Next.js
-4. Angular
-5. Django (Python)
-6. Flask (Python)
-7. Ruby on Rails
-8. Outra/Genérico
-
-## 🔑 APIs Suportadas
-
-Configure as seguintes variáveis de ambiente para máxima eficiência:
+### Environment Variables Setup
+Create a `.env` file or set environment variables:
 
 ```bash
-# SecurityTrails API
-export SECURITYTRAILS_API_KEY="sua_api_key_aqui"
-
-# Shodan API
-export SHODAN_API_KEY="sua_api_key_aqui"
-
-# Google Custom Search (para Dorks)
-export GOOGLE_API_KEY="sua_api_key_aqui"
-export GOOGLE_CSE_ID="seu_cse_id_aqui"
+export SECURITYTRAILS_API_KEY="your_securitytrails_api_key"
+export SHODAN_API_KEY="your_shodan_api_key"
+export GOOGLE_API_KEY="your_google_api_key"
+export GOOGLE_CSE_ID="your_google_custom_search_engine_id"
 ```
 
-### Como obter as APIs:
-- **SecurityTrails**: [securitytrails.com](https://securitytrails.com)
-- **Shodan**: [shodan.io](https://shodan.io)
-- **Google CSE**: [developers.google.com](https://developers.google.com/custom-search)
+### API Providers
+- **SecurityTrails**: Advanced subdomain discovery
+- **Shodan**: Host information and additional subdomains
+- **Google Custom Search**: Automated dorking with official API
 
-## ⚙️ Configuração
+## 🔧 Advanced Features
 
-O script possui configurações avançadas que podem ser ajustadas:
+### Custom Wordlists
+The tool includes comprehensive wordlists for:
+- **Common subdomains**: www, mail, api, admin, test, dev, staging
+- **Admin paths**: /admin, /wp-admin, /administrator, /manager
+- **Sensitive files**: .env, .git/config, backup files, configuration files
 
-```python
-# Número de threads para processamento paralelo
-THREADS = 20
+### Multi-threading Configuration
+- **Default threads**: 20 concurrent connections
+- **Timeout settings**: 10 seconds per request
+- **Rate limiting**: Built-in delays to avoid blocking
+- **User-Agent rotation**: Multiple browser signatures
 
-# Timeout para requisições HTTP
-TIMEOUT = 10
+### Vulnerability Signatures
+Advanced pattern matching for:
+- **SQL Injection**: MySQL, MSSQL, PostgreSQL error patterns
+- **XSS vulnerabilities**: Script injection and DOM manipulation
+- **File inclusion**: Path traversal and local file access
+- **Debug information**: Development mode exposure
+- **Credential leakage**: API keys, database credentials
 
-# Diretório de saída
-OUTPUT_DIR = "recon_results"
-```
+## 📈 Output & Reporting
 
-## 📝 Exemplos
+### Generated Files
+- **HTML Report**: `recon_results/recon_report_domain.html`
+- **Screenshots**: `recon_results/screenshots/` (if enabled)
+- **Raw Data**: JSON format for further analysis
 
-### Exemplo 1: Recon Completo
-```bash
-python3 recon.py target.com
-```
-**Saída:**
-- Lista de subdomínios ativos
-- Tecnologias detectadas
-- Paths sensíveis encontrados
-- Relatório HTML completo
+### Report Sections
+1. **Executive Summary**: High-level findings and statistics
+2. **Active Subdomains**: Live hosts with technology fingerprinting
+3. **Sensitive Paths**: Discovered endpoints and potential vulnerabilities
+4. **Google Dorks**: OSINT findings and exposed information
+5. **Security Recommendations**: Actionable remediation steps
 
-### Exemplo 2: Foco em Login Pages
-```bash
-python3 recon.py target.com --dork-type login
-```
+## 🏷️ SEO Keywords
 
-### Exemplo 3: Busca por Arquivos Sensíveis
-```bash
-python3 recon.py target.com --dork-type files
-```
+**Primary Keywords**: web reconnaissance, subdomain enumeration, penetration testing, vulnerability scanner, web security assessment, bug bounty tools, OSINT tools, cybersecurity reconnaissance
 
-## 📈 Resultados
+**Secondary Keywords**: directory fuzzing, technology fingerprinting, Google dorking, SSL certificate analysis, web application security, ethical hacking tools, security testing automation, penetration testing framework
 
-### Estrutura de Saída
-```
-recon_results/
-├── recon_report_target.com.html
-└── screenshots/
-```
+**Long-tail Keywords**: automated web reconnaissance tool python, professional subdomain discovery script, advanced web fuzzing framework, cybersecurity assessment automation, bug bounty reconnaissance toolkit, web application vulnerability detection
 
-### Informações Coletadas
-- **Subdomínios**: URLs, status, IPs, tecnologias
-- **Vulnerabilidades**: XSS, SQLi, LFI, RCE básicos
-- **Login Pages**: Formulários de autenticação
-- **Arquivos Sensíveis**: Backups, logs, configurações
-- **Certificados SSL**: Informações de emissor e validade
+**Technical Keywords**: DNS enumeration, HTTP header analysis, XSS detection, SQL injection testing, CORS misconfiguration, certificate transparency, web scraping security, API-based reconnaissance
 
-## ⚠️ Disclaimer
+## ⚖️ Legal Disclaimer
 
-### AVISO LEGAL E ÉTICO
+### 🚨 IMPORTANT LEGAL NOTICE
 
-**ESTA FERRAMENTA É DESTINADA EXCLUSIVAMENTE PARA FINS EDUCACIONAIS E TESTES DE SEGURANÇA AUTORIZADOS.**
+**This tool is provided for educational and authorized testing purposes only.**
 
-#### ✅ USO PERMITIDO:
-- Testes em seus próprios sistemas e aplicações
-- Pentest autorizado com permissão por escrito
-- Pesquisa educacional em ambientes controlados
-- Bug bounty programs com escopo definido
-- Red team exercises autorizados
+### Authorized Use Only
+- ✅ **Authorized penetration testing** with proper written consent
+- ✅ **Educational purposes** in controlled environments
+- ✅ **Security research** on owned systems
+- ✅ **Bug bounty programs** with explicit scope authorization
+- ✅ **Cybersecurity training** and certification preparation
 
-#### ❌ USO PROIBIDO:
-- Testes não autorizados em sistemas de terceiros
-- Acesso não autorizado a dados ou sistemas
-- Violação de termos de serviço
-- Atividades maliciosas ou ilegais
-- Coleta de dados sem permissão
+### Prohibited Activities
+- ❌ **Unauthorized scanning** of systems you do not own
+- ❌ **Malicious activities** or attacks against third parties
+- ❌ **Violation of terms of service** of target applications
+- ❌ **Any illegal activities** under local, state, or federal law
+- ❌ **Commercial use** without proper licensing and authorization
 
-#### 📋 RESPONSABILIDADES:
-- **O usuário** é totalmente responsável pelo uso desta ferramenta
-- **O desenvolvedor** não se responsabiliza por mau uso ou danos
-- Sempre obtenha **autorização explícita** antes de usar
-- Respeite as **leis locais** e **termos de serviço**
-- Use apenas em **ambientes controlados** ou **sistemas próprios**
+### User Responsibilities
+By using this tool, you acknowledge and agree that:
 
-#### 🛡️ ÉTICA EM SEGURANÇA:
-- Reporte vulnerabilidades de forma responsável
-- Não cause danos aos sistemas testados
-- Mantenha confidencialidade dos dados encontrados
-- Siga as melhores práticas de disclosure
+1. **You have explicit written authorization** to test the target systems
+2. **You will comply with all applicable laws** and regulations
+3. **You understand the ethical implications** of security testing
+4. **You will not use this tool for malicious purposes**
+5. **You accept full responsibility** for your actions and their consequences
 
-**AO USAR ESTA FERRAMENTA, VOCÊ CONCORDA EM ASSUMIR TOTAL RESPONSABILIDADE POR SUAS AÇÕES E ACEITA QUE O USO INADEQUADO PODE RESULTAR EM CONSEQUÊNCIAS LEGAIS.**
+### Legal Compliance
+- Ensure compliance with **Computer Fraud and Abuse Act (CFAA)** in the US
+- Follow **GDPR** and privacy regulations in Europe
+- Respect **local cybersecurity laws** in your jurisdiction
+- Obtain **proper authorization** before conducting any security testing
+- Maintain **professional ethics** in cybersecurity practices
 
-## 🤝 Contribuições
+## 🎓 Educational Purpose
 
-Contribuições são bem-vindas! Por favor:
+This tool is designed for:
+- **Cybersecurity education** and skill development
+- **Penetration testing certification** preparation (CEH, OSCP, CISSP)
+- **University coursework** in cybersecurity and ethical hacking
+- **Professional development** for security practitioners
+- **Research purposes** in academic and corporate environments
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+### Learning Objectives
+- Understanding **web application reconnaissance** methodologies
+- Learning **automated security testing** techniques
+- Practicing **OSINT (Open Source Intelligence)** gathering
+- Developing **vulnerability assessment** skills
+- Mastering **professional reporting** for security findings
 
-### Áreas para Contribuição:
-- Novos módulos de descoberta
-- Detecção de vulnerabilidades
-- Melhoria nos relatórios
-- Otimizações de performance
-- Documentação
+## 🤝 Contributing
 
-## 📧 Contato
+We welcome contributions from the cybersecurity community:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
+
+### Contribution Guidelines
+- Follow **PEP 8** Python coding standards
+- Add **comprehensive documentation** for new features
+- Include **error handling** and **input validation**
+- Test on **multiple target types** and environments
+- Maintain **ethical standards** and **legal compliance**
+
+## 👨‍💻 Author
 
 **Pentester Caio | CHDEVSEC**
 
-- GitHub: [@seu-github](https://github.com/seu-usuario)
-- LinkedIn: [Seu LinkedIn](https://linkedin.com/in/seu-perfil)
-
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+- **Professional Penetration Tester**
+- **Cybersecurity Researcher**  
+- **Web Application Security Specialist**
+- **Bug Bounty Hunter**
 
 ---
 
-## 🛠️ Roadmap
-
-### Próximas Funcionalidades:
-- [ ] Integração com mais APIs (VirusTotal, Censys)
-- [ ] Módulo de screenshot automático
-- [ ] Detecção de WAF
-- [ ] Export para JSON/CSV
-- [ ] Interface web opcional
-- [ ] Integração com Metasploit
-- [ ] Análise de JavaScript
-- [ ] Detecção de CMS específicos
+### 🔗 Professional Links
+- **LinkedIn**: [Connect with Caio](https://linkedin.com/in/pentester-caio)
+- **GitHub**: [CHDEVSEC](https://github.com/chdevsec)
+- **Blog**: [Cybersecurity Insights](https://chdevsec.blog)
 
 ---
 
-**⭐ Se esta ferramenta foi útil para você, considere dar uma estrela no repositório!**
+### 📞 Contact & Support
+- **Email**: contact@chdevsec.com
+- **Twitter**: [@CHDEVSEC](https://twitter.com/chdevsec)
+- **Telegram**: [@PentesterCaio](https://t.me/pentestercaio)
 
-*Desenvolvido com ❤️ para a comunidade de segurança cibernética*
+---
+
+## 🏆 Recognition
+
+*"Advanced reconnaissance is the foundation of effective penetration testing. This tool embodies professional-grade automation for cybersecurity professionals."*
+
+---
+
+**⭐ If this tool helped you in your cybersecurity journey, please consider starring the repository!**
+
+---
+
+*© 2024 CHDEVSEC - Professional Cybersecurity Tools. All rights reserved.*
+
+*This project is licensed under Educational Use License - see the [LICENSE](LICENSE) file for details.*
