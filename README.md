@@ -77,8 +77,8 @@ pip3 --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/chdevsec/professional-web-recon.git
-cd professional-web-recon
+git clone https://github.com/chdevsec/recon_pro.git
+cd recon_pro
 
 # Install Python dependencies
 pip3 install -r requirements.txt
@@ -147,17 +147,17 @@ API_KEYS = {
 ### Basic Syntax
 
 ```bash
-python3 web_recon.py <domain> [options]
+python3 recon_pro.py <domain> [options]
 ```
 
 ### Simple Examples
 
 ```bash
 # Basic reconnaissance
-python3 web_recon.py example.com
+python3 recon_pro.py example.com
 
 # With specific Google Dorks type
-python3 web_recon.py example.com --dork-type login
+python3 recon_pro.py example.com --dork-type login
 
 # Sensitive files only
 python3 web_recon.py example.com --dork-type files
@@ -257,17 +257,17 @@ recon_results/
 
 ```bash
 # Complete reconnaissance for bug bounty
-python3 web_recon.py target.com
+python3 recon_pro.py target.com
 
 # Focus on login pages
-python3 web_recon.py target.com --dork-type login
+python3 recon_pro.py target.com --dork-type login
 ```
 
 ### Scenario 2: Web Application Pentest
 
 ```bash
 # Reconnaissance focused on PHP application
-python3 web_recon.py webapp.com
+python3 recon_pro.py webapp.com
 # Select option "1" for PHP when prompted
 ```
 
@@ -275,7 +275,7 @@ python3 web_recon.py webapp.com
 
 ```bash
 # Search for exposed sensitive files
-python3 web_recon.py company.com --dork-type files
+python3 recon_pro.py company.com --dork-type files
 ```
 
 ## 🔍 Vulnerability Detection
