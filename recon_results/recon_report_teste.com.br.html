@@ -1,0 +1,3411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHDEVSEC // Pentest Report - teste.com.br</title>
+    <meta name="description" content="Relatório de Reconhecimento de Segurança - teste.com.br">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CHDEVSEC PENTEST DASHBOARD v2.0
+           Theme: Cyber / Hacker / Modern Charts
+           ============================================ */
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-card: #14141f;
+            --bg-card-hover: #1a1a28;
+
+            --neon-cyan: #00f5ff;
+            --neon-blue: #0080ff;
+            --neon-purple: #a855f7;
+            --neon-green: #00ff88;
+            --neon-red: #ff3366;
+            --neon-yellow: #ffd700;
+            --neon-orange: #ff8c00;
+
+            --text-primary: #e0e0e0;
+            --text-secondary: #8a8a9a;
+            --text-muted: #5a5a6a;
+
+            --glow-cyan: 0 0 20px rgba(0, 245, 255, 0.3);
+            --glow-green: 0 0 20px rgba(0, 255, 136, 0.3);
+            --glow-red: 0 0 20px rgba(255, 51, 102, 0.3);
+
+            --border-subtle: rgba(0, 245, 255, 0.15);
+            --border-active: rgba(0, 245, 255, 0.4);
+
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 4px);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 2px;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+        }
+
+        .ascii-logo {
+            font-size: 0.5rem;
+            line-height: 1;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+            white-space: pre;
+            display: none;
+            /* Centralização absoluta */
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .ascii-logo {
+                display: block;
+            }
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 2px;
+            color: var(--neon-cyan);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-primary);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .header-target {
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+        }
+
+        .header-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           DASHBOARD OVERVIEW - MAIN CHARTS SECTION
+           ============================================ */
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            /* CHDEVSEC Style: Corner brackets */
+        }
+
+        .chart-panel:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.15), inset 0 0 60px rgba(0, 245, 255, 0.02);
+        }
+
+        /* Corner decorations */
+        .chart-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .chart-panel:hover::after {
+            opacity: 1;
+        }
+
+        .chart-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-cyan));
+            background-size: 200% 100%;
+            animation: gradient-flow 3s linear infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .chart-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-title::before {
+            content: '>';
+            color: var(--neon-cyan);
+            margin-right: 4px;
+        }
+
+        .chart-total {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(0, 245, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* PIE CHART - CSS Only */
+        .pie-chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(var(--neon-green) 0deg calc(var(--web-active, 0) * 3.6deg),
+                    var(--neon-blue) calc(var(--web-active, 0) * 3.6deg) calc((var(--web-active, 0) + var(--dns-only, 0)) * 3.6deg),
+                    var(--neon-yellow) calc((var(--web-active, 0) + var(--dns-only, 0)) * 3.6deg) calc((var(--web-active, 0) + var(--dns-only, 0) + var(--timeouts, 0)) * 3.6deg),
+                    var(--neon-orange) calc((var(--web-active, 0) + var(--dns-only, 0) + var(--timeouts, 0)) * 3.6deg) 360deg);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.5);
+            animation: chart-appear 1s ease-out;
+        }
+
+        @keyframes chart-appear {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pie-chart::before {
+            content: '';
+            position: absolute;
+            inset: 30px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .pie-chart::after {
+            content: attr(data-total);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            /* Reduzido de 1.8rem */
+            font-weight: 700;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 10px;
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: rgba(0, 245, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .legend-color.green {
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .legend-color.blue {
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .legend-color.yellow {
+            background: var(--neon-yellow);
+            box-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        .legend-color.orange {
+            background: var(--neon-orange);
+            box-shadow: 0 0 10px var(--neon-orange);
+        }
+
+        .legend-color.red {
+            background: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red);
+        }
+
+        .legend-color.purple {
+            background: var(--neon-purple);
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .legend-color.cyan {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .legend-label {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .legend-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .legend-percent {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 45px;
+            text-align: right;
+        }
+
+        /* ============================================
+           QUICK STATS CARDS
+           ============================================ */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top accent line */
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--neon-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.2), 0 0 0 1px var(--neon-cyan);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover::after {
+            opacity: 0.7;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            flex-shrink: 0;
+        }
+
+        .stat-icon img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .stat-card.critical .stat-icon {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--neon-red);
+        }
+
+        .stat-card.apis .stat-icon {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--neon-yellow);
+        }
+
+        .stat-card.services .stat-icon {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--neon-green);
+        }
+
+        .stat-card.paths .stat-icon {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--neon-purple);
+        }
+
+        .stat-card.dorks .stat-icon {
+            background: rgba(0, 128, 255, 0.15);
+            color: var(--neon-blue);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        .stat-card.critical .stat-value {
+            color: var(--neon-red);
+        }
+
+        .stat-card.apis .stat-value {
+            color: var(--neon-yellow);
+        }
+
+        .stat-card.services .stat-value {
+            color: var(--neon-green);
+        }
+
+        .stat-card.paths .stat-value {
+            color: var(--neon-purple);
+        }
+
+        .stat-card.dorks .stat-value {
+            color: var(--neon-blue);
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ============================================
+           BAR CHART - Horizontal Bars
+           ============================================ */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 100px;
+            min-width: 80px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bar-value {
+            min-width: 40px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            animation: bar-grow 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: bar-shine 2s ease-in-out infinite;
+        }
+
+        @keyframes bar-grow {
+            from {
+                width: 0 !important;
+            }
+        }
+
+        @keyframes bar-shine {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        .bar-fill.green {
+            background: linear-gradient(90deg, var(--neon-green), #00cc6a);
+        }
+
+        .bar-fill.blue {
+            background: linear-gradient(90deg, var(--neon-blue), #0066cc);
+        }
+
+        .bar-fill.yellow {
+            background: linear-gradient(90deg, var(--neon-yellow), #cc9900);
+        }
+
+        .bar-fill.orange {
+            background: linear-gradient(90deg, var(--neon-orange), #cc6600);
+        }
+
+        .bar-fill.red {
+            background: linear-gradient(90deg, var(--neon-red), #cc0033);
+        }
+
+        .bar-fill.purple {
+            background: linear-gradient(90deg, var(--neon-purple), #8844cc);
+        }
+
+        .bar-value {
+            min-width: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        /* ============================================
+           SECTION STYLING
+           ============================================ */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Corner decorations CHDEVSEC style */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border-left: 2px solid var(--neon-cyan);
+            border-top: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .section:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.1);
+        }
+
+        .section:hover::before,
+        .section:hover::after {
+            opacity: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-cyan);
+        }
+
+        .section-title::before {
+            content: '>';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .section-count {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-secondary);
+        }
+
+        .section-body {
+            padding: 1.5rem;
+        }
+
+        /* ============================================
+           TABLE STYLING
+           ============================================ */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table thead {
+            background: rgba(0, 245, 255, 0.05);
+        }
+
+        .data-table th {
+            padding: 0.5rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .data-table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(0, 245, 255, 0.03);
+        }
+
+        .data-table a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .data-table a:hover {
+            text-shadow: var(--glow-cyan);
+        }
+
+        /* ============================================
+           BADGES
+           ============================================ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+            border: 1px solid currentColor;
+        }
+
+        .badge-success {
+            color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .badge-warning {
+            color: var(--neon-yellow);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .badge-danger {
+            color: var(--neon-red);
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .badge-info {
+            color: var(--neon-cyan);
+            background: rgba(0, 245, 255, 0.1);
+        }
+
+        .badge-muted {
+            color: var(--text-muted);
+            background: rgba(90, 90, 106, 0.1);
+        }
+
+        .status-code {
+            font-weight: 600;
+        }
+
+        .status-2xx {
+            color: var(--neon-green);
+        }
+
+        .status-3xx {
+            color: var(--neon-blue);
+        }
+
+        .status-4xx {
+            color: var(--neon-yellow);
+        }
+
+        .status-5xx {
+            color: var(--neon-red);
+        }
+
+        /* ============================================
+           CLASSIFICATION CARDS
+           ============================================ */
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .classification-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .classification-card:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 245, 255, 0.03);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+        }
+
+        .classification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .classification-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .classification-list {
+            list-style: none;
+        }
+
+        .classification-item {
+            padding: 4px 0;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .classification-item::before {
+            content: '•';
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           DORKS SECTION
+           ============================================ */
+        .dork-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dork-query {
+            font-size: 0.85rem;
+            color: var(--neon-yellow);
+            background: rgba(255, 215, 0, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .dork-links {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .dork-links li {
+            padding: 4px 0;
+            font-size: 0.8rem;
+        }
+
+        .dork-links a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+        }
+
+        .dork-links a:hover {
+            text-decoration: underline;
+        }
+
+        .dork-blocked {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 2px;
+            color: var(--neon-red);
+            font-size: 0.8rem;
+        }
+
+        /* ============================================
+           RECOMMENDATIONS
+           ============================================ */
+        .recommendations-list {
+            list-style: none;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 2px solid var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .recommendation-item:hover {
+            background: rgba(0, 245, 255, 0.05);
+            border-left-color: var(--neon-green);
+        }
+
+        .recommendation-icon {
+            font-size: 1rem;
+            color: var(--neon-cyan);
+            flex-shrink: 0;
+        }
+
+        .recommendation-text {
+            font-size: 0.85rem;
+        }
+
+        .recommendation-text strong {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            background: linear-gradient(180deg, transparent, var(--bg-secondary));
+        }
+
+        .footer-logo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           EMPTY STATE
+           ============================================ */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           PIXEL ART ICONS
+           ============================================ */
+        .pixel-icon {
+            width: 24px;
+            height: 24px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 5px rgba(0, 245, 255, 0.5));
+        }
+
+        .pixel-icon.small {
+            width: 16px;
+            height: 16px;
+        }
+
+        .pixel-icon.large {
+            width: 32px;
+            height: 32px;
+        }
+
+        .stat-icon img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .recommendation-icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: #0a0a0f !important;
+                font-size: 10pt;
+            }
+
+            body::before,
+            body::after {
+                display: none !important;
+            }
+
+            .export-btn {
+                display: none !important;
+            }
+
+            .section,
+            .chart-panel {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .pie-chart,
+            .bar-fill {
+                animation: none !important;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-info {
+                align-items: center;
+            }
+
+            .pie-chart-container {
+                flex-direction: column;
+            }
+
+            .pie-chart {
+                width: 150px;
+                height: 150px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <img src="../assets/logo/LOGO CHDEVSEC BRANCO.png" alt="CHDEVSEC Logo" class="logo-image">
+                <span class="logo-text">CHDEVSEC</span>
+                <span class="logo-badge">Pentest</span>
+            </div>
+            <pre class="ascii-logo">
+ ██████╗██╗  ██╗██████╗ ███████╗██╗   ██╗███████╗███████╗ ██████╗
+██╔════╝██║  ██║██╔══██╗██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝
+██║     ███████║██║  ██║█████╗  ██║   ██║███████╗█████╗  ██║     
+██║     ██╔══██║██║  ██║██╔══╝  ╚██╗ ██╔╝╚════██║██╔══╝  ██║     
+╚██████╗██║  ██║██████╔╝███████╗ ╚████╔╝ ███████║███████╗╚██████╗
+ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚══════╝ ╚═════╝
+            </pre>
+            <div class="header-info">
+                <button class="export-btn" onclick="window.print()">
+                    <img src="../assets/icons/fc11.png" class="pixel-icon small" alt="Download"> Export to PDF
+                </button>
+                <span class="header-target">// teste.com.br</span>
+                <span class="header-date">2026-01-21 10:54:26</span>
+            </div>
+        </header>
+
+        <!-- ============================================
+             DASHBOARD OVERVIEW - CHARTS
+             ============================================ -->
+        <section class="dashboard-overview">
+            <!-- PIE CHART: Subdomain Status Distribution -->
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <h2 class="chart-title"><img src="../assets/icons/fc6.png" class="pixel-icon" alt="Total">
+                        Distribuição</h2>
+                    <span class="chart-total">312</span>
+                </div>
+                <div class="pie-chart-container">
+                    <div class="pie-chart" data-total="312"
+                        style="--web-active: 0.3; --dns-only: 99.7; --timeouts: 0.0; --filtered: 0.0;">
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2120.png" class="pixel-icon small" alt="Green">
+                            <span class="legend-label">Web Ativos</span>
+                            <span class="legend-value">1</span>
+                            <span class="legend-percent">(0.3%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2119.png" class="pixel-icon small" alt="Blue">
+                            <span class="legend-label">DNS Only</span>
+                            <span class="legend-value">311</span>
+                            <span class="legend-percent">(99.7%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2118.png" class="pixel-icon small" alt="Yellow">
+                            <span class="legend-label">Timeouts</span>
+                            <span class="legend-value">0</span>
+                            <span class="legend-percent">(0.0%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2117.png" class="pixel-icon small" alt="Orange">
+                            <span class="legend-label">Filtrados</span>
+                            <span class="legend-value">0</span>
+                            <span class="legend-percent">(0.0%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAR CHART: Findings Summary -->
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <h2 class="chart-title"><img src="../assets/icons/fc12.png" class="pixel-icon" alt="Stats"> Resumo
+                    </h2>
+                    <span class="chart-total">Overview</span>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">Subdomínios</span>
+                        <div class="bar-track">
+                            <div class="bar-fill cyan" style="width: 100%;">312</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Web Ativos</span>
+                        <div class="bar-track">
+                            <div class="bar-fill green" style="width: 0.3%;"></div>
+                        </div>
+                        <span class="bar-value">1</span>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Paths Sensíveis</span>
+                        <div class="bar-track">
+                            <div class="bar-fill red" style="width: 0.0%;"></div>
+                        </div>
+                        <span class="bar-value">0</span>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Dorks c/ Resultado</span>
+                        <div class="bar-track">
+                            <div class="bar-fill purple" style="width: 0.0%;"></div>
+                        </div>
+                        <span class="bar-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             QUICK STATS CARDS
+             ============================================ -->
+        <section class="stats-row">
+            <div class="stat-card critical">
+                <div class="stat-icon"><img src="../assets/icons/fc2117.png" class="pixel-icon" alt="Critical"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Críticos</div>
+                </div>
+            </div>
+            <div class="stat-card apis">
+                <div class="stat-icon"><img src="../assets/icons/fc2118.png" class="pixel-icon" alt="API"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">APIs</div>
+                </div>
+            </div>
+            <div class="stat-card services">
+                <div class="stat-icon"><img src="../assets/icons/fc2120.png" class="pixel-icon" alt="Services"></div>
+                <div class="stat-content">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Serviços</div>
+                </div>
+            </div>
+            <div class="stat-card paths">
+                <div class="stat-icon"><img src="../assets/icons/fc2121.png" class="pixel-icon" alt="Paths"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Paths</div>
+                </div>
+            </div>
+            <div class="stat-card dorks">
+                <div class="stat-icon"><img src="../assets/icons/fc2119.png" class="pixel-icon" alt="Dorks"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Dorks</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SUBDOMÍNIOS WEB ATIVOS
+             ============================================ -->
+        <section class="section" id="subdomains">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc910.png" class="pixel-icon" alt="Fire">
+                    Subdomínios Ativos</h2>
+                <span class="section-count">1</span>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>IP</th>
+                            <th>Tecnologias</th>
+                            <th>Título</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+        <tr>
+            <td><a href="http://teste.com.br" target="_blank">http://teste.com.br</a></td>
+            <td><span class="status-code status-4xx">403</span></td>
+            <td>45.152.44.81</td>
+            <td>LiteSpeed</td>
+            <td>No Title</td>
+            <td></td>
+        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             CLASSIFICAÇÃO DE SUBDOMÍNIOS
+             ============================================ -->
+        <section class="section" id="classification">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc5.png" class="pixel-icon" alt="Shield">
+                    Classificação</h2>
+            </div>
+            <div class="section-body">
+                <div class="classification-grid">
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2117.png"
+                                    class="pixel-icon small" alt="Ruby"> Críticos</span>
+                            <span class="badge badge-danger">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2118.png"
+                                    class="pixel-icon small" alt="Gold"> APIs</span>
+                            <span class="badge badge-warning">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2120.png"
+                                    class="pixel-icon small" alt="Emerald"> Serviços</span>
+                            <span class="badge badge-success">1</span>
+                        </div>
+                        <ul class="classification-list">
+                            <li class="classification-item">teste.com.br</li>
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2116.png"
+                                    class="pixel-icon small" alt="Silver"> Infra</span>
+                            <span class="badge badge-muted">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PATHS SENSÍVEIS
+             ============================================ -->
+        <section class="section" id="paths">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc859.png" class="pixel-icon" alt="Warning"> Paths
+                    Sensíveis</h2>
+                <span class="section-count">0</span>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>Tipo</th>
+                            <th>Tamanho</th>
+                            <th>Risco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             GOOGLE DORKS
+             ============================================ -->
+        <section class="section" id="dorks">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc9.png" class="pixel-icon" alt="Book"> Dorks</h2>
+                <span class="section-count">0</span>
+            </div>
+            <div class="section-body">
+                
+        <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p class="empty-state-text">Nenhum resultado de dorks encontrado.</p>
+        </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             RECOMENDAÇÕES
+             ============================================ -->
+        <section class="section" id="recommendations">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc856.png" class="pixel-icon" alt="Shield">
+                    Recomendações</h2>
+            </div>
+            <div class="section-body">
+                <ul class="recommendations-list">
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc5.png" class="pixel-icon"
+                                alt="Defense"></span>
+                        <span class="recommendation-text">Testar endpoints de login contra SQLi e Brute Force</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc9.png" class="pixel-icon"
+                                alt="Files"></span>
+                        <span class="recommendation-text">Remover arquivos sensíveis (.env, backups)</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc855.png" class="pixel-icon"
+                                alt="Secure"></span>
+                        <span class="recommendation-text">Implementar WAF e Rate Limiting</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc13.png" class="pixel-icon"
+                                alt="Question"></span>
+                        <span class="recommendation-text">Desativar subdomínios não utilizados</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-logo">
+                <img src="../assets/logo/LOGO CHDEVSEC BRANCO.png" alt="CHDEVSEC"
+                    style="height: 30px; filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));">
+            </div>
+            <p class="footer-text">
+                Relatório gerado por <strong>Recon Pro</strong> | Pentester: Caio Silva
+            </p>
+            <p class="footer-text" style="margin-top: 4px; opacity: 0.6;">
+                Confidencial - Uso interno
+            </p>
+            <div class="footer-links">
+                <a href="https://github.com/chdevsec" target="_blank">→ GitHub</a>
+                <a href="https://instagram.com/chdevsec" target="_blank">→ Instagram</a>
+                <a href="mailto:chdevsec@gmail.com">→ Contact</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ============================================
+            // CHDEVSEC DASHBOARD v2.0 - Enhanced Animations
+            // ============================================
+
+            // Scroll Reveal Animation
+            const revealElements = document.querySelectorAll('.section, .chart-panel, .stat-card');
+
+            const revealOnScroll = () => {
+                revealElements.forEach((el, index) => {
+                    const rect = el.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight - 100;
+
+                    if (isVisible && !el.classList.contains('revealed')) {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(30px)';
+
+                        setTimeout(() => {
+                            el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                            el.classList.add('revealed');
+                        }, index * 100);
+                    }
+                });
+            };
+
+            // Initial reveal
+            revealOnScroll();
+            window.addEventListener('scroll', revealOnScroll);
+
+            // Animate counters with easing
+            document.querySelectorAll('.stat-value, .legend-value').forEach(el => {
+                const target = parseInt(el.textContent) || 0;
+                if (target > 0) {
+                    el.textContent = '0';
+                    let current = 0;
+                    const duration = 1500;
+                    const startTime = Date.now();
+
+                    const animate = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Easing function
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        current = Math.floor(eased * target);
+                        el.textContent = current;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            el.textContent = target;
+                        }
+                    };
+
+                    // Delay start for staggered effect
+                    setTimeout(animate, 500);
+                }
+            });
+
+            // Glitch effect on logo text
+            const glitchText = document.querySelector('.logo-text');
+            if (glitchText) {
+                setInterval(() => {
+                    glitchText.style.textShadow = `
+                        ${Math.random() * 4 - 2}px 0 var(--neon-cyan),
+                        ${Math.random() * 4 - 2}px 0 var(--neon-purple)
+                    `;
+                    setTimeout(() => {
+                        glitchText.style.textShadow = 'none';
+                    }, 50);
+                }, 3000);
+            }
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            console.log('%c CHDEVSEC Dashboard v2.0 ',
+                'background: #00f5ff; color: #0a0a0f; font-weight: bold; padding: 5px 10px;');
+        });
+    </script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHDEVSEC // Pentest Report - teste.com.br</title>
+    <meta name="description" content="Relatório de Reconhecimento de Segurança - teste.com.br">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CHDEVSEC PENTEST DASHBOARD v2.0
+           Theme: Cyber / Hacker / Modern Charts
+           ============================================ */
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --bg-card: #14141f;
+            --bg-card-hover: #1a1a28;
+
+            --neon-cyan: #00f5ff;
+            --neon-blue: #0080ff;
+            --neon-purple: #a855f7;
+            --neon-green: #00ff88;
+            --neon-red: #ff3366;
+            --neon-yellow: #ffd700;
+            --neon-orange: #ff8c00;
+
+            --text-primary: #e0e0e0;
+            --text-secondary: #8a8a9a;
+            --text-muted: #5a5a6a;
+
+            --glow-cyan: 0 0 20px rgba(0, 245, 255, 0.3);
+            --glow-green: 0 0 20px rgba(0, 255, 136, 0.3);
+            --glow-red: 0 0 20px rgba(255, 51, 102, 0.3);
+
+            --border-subtle: rgba(0, 245, 255, 0.15);
+            --border-active: rgba(0, 245, 255, 0.4);
+
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 4px);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 2px;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+        }
+
+        .ascii-logo {
+            font-size: 0.5rem;
+            line-height: 1;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+            white-space: pre;
+            display: none;
+            /* Centralização absoluta */
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .ascii-logo {
+                display: block;
+            }
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 2px;
+            color: var(--neon-cyan);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-primary);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .header-target {
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+        }
+
+        .header-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           DASHBOARD OVERVIEW - MAIN CHARTS SECTION
+           ============================================ */
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            /* CHDEVSEC Style: Corner brackets */
+        }
+
+        .chart-panel:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.15), inset 0 0 60px rgba(0, 245, 255, 0.02);
+        }
+
+        /* Corner decorations */
+        .chart-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .chart-panel:hover::after {
+            opacity: 1;
+        }
+
+        .chart-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-cyan));
+            background-size: 200% 100%;
+            animation: gradient-flow 3s linear infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .chart-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-title::before {
+            content: '>';
+            color: var(--neon-cyan);
+            margin-right: 4px;
+        }
+
+        .chart-total {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(0, 245, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* PIE CHART - CSS Only */
+        .pie-chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(var(--neon-green) 0deg calc(var(--web-active, 0) * 3.6deg),
+                    var(--neon-blue) calc(var(--web-active, 0) * 3.6deg) calc((var(--web-active, 0) + var(--dns-only, 0)) * 3.6deg),
+                    var(--neon-yellow) calc((var(--web-active, 0) + var(--dns-only, 0)) * 3.6deg) calc((var(--web-active, 0) + var(--dns-only, 0) + var(--timeouts, 0)) * 3.6deg),
+                    var(--neon-orange) calc((var(--web-active, 0) + var(--dns-only, 0) + var(--timeouts, 0)) * 3.6deg) 360deg);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.5);
+            animation: chart-appear 1s ease-out;
+        }
+
+        @keyframes chart-appear {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pie-chart::before {
+            content: '';
+            position: absolute;
+            inset: 30px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .pie-chart::after {
+            content: attr(data-total);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            /* Reduzido de 1.8rem */
+            font-weight: 700;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 10px;
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: rgba(0, 245, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .legend-color.green {
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .legend-color.blue {
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .legend-color.yellow {
+            background: var(--neon-yellow);
+            box-shadow: 0 0 10px var(--neon-yellow);
+        }
+
+        .legend-color.orange {
+            background: var(--neon-orange);
+            box-shadow: 0 0 10px var(--neon-orange);
+        }
+
+        .legend-color.red {
+            background: var(--neon-red);
+            box-shadow: 0 0 10px var(--neon-red);
+        }
+
+        .legend-color.purple {
+            background: var(--neon-purple);
+            box-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .legend-color.cyan {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .legend-label {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .legend-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .legend-percent {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 45px;
+            text-align: right;
+        }
+
+        /* ============================================
+           QUICK STATS CARDS
+           ============================================ */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top accent line */
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--neon-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.2), 0 0 0 1px var(--neon-cyan);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover::after {
+            opacity: 0.7;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            flex-shrink: 0;
+        }
+
+        .stat-icon img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .stat-card.critical .stat-icon {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--neon-red);
+        }
+
+        .stat-card.apis .stat-icon {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--neon-yellow);
+        }
+
+        .stat-card.services .stat-icon {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--neon-green);
+        }
+
+        .stat-card.paths .stat-icon {
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--neon-purple);
+        }
+
+        .stat-card.dorks .stat-icon {
+            background: rgba(0, 128, 255, 0.15);
+            color: var(--neon-blue);
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 0.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        .stat-card.critical .stat-value {
+            color: var(--neon-red);
+        }
+
+        .stat-card.apis .stat-value {
+            color: var(--neon-yellow);
+        }
+
+        .stat-card.services .stat-value {
+            color: var(--neon-green);
+        }
+
+        .stat-card.paths .stat-value {
+            color: var(--neon-purple);
+        }
+
+        .stat-card.dorks .stat-value {
+            color: var(--neon-blue);
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ============================================
+           BAR CHART - Horizontal Bars
+           ============================================ */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 100px;
+            min-width: 80px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bar-value {
+            min-width: 40px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            animation: bar-grow 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: bar-shine 2s ease-in-out infinite;
+        }
+
+        @keyframes bar-grow {
+            from {
+                width: 0 !important;
+            }
+        }
+
+        @keyframes bar-shine {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        .bar-fill.green {
+            background: linear-gradient(90deg, var(--neon-green), #00cc6a);
+        }
+
+        .bar-fill.blue {
+            background: linear-gradient(90deg, var(--neon-blue), #0066cc);
+        }
+
+        .bar-fill.yellow {
+            background: linear-gradient(90deg, var(--neon-yellow), #cc9900);
+        }
+
+        .bar-fill.orange {
+            background: linear-gradient(90deg, var(--neon-orange), #cc6600);
+        }
+
+        .bar-fill.red {
+            background: linear-gradient(90deg, var(--neon-red), #cc0033);
+        }
+
+        .bar-fill.purple {
+            background: linear-gradient(90deg, var(--neon-purple), #8844cc);
+        }
+
+        .bar-value {
+            min-width: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+        }
+
+        /* ============================================
+           SECTION STYLING
+           ============================================ */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Corner decorations CHDEVSEC style */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            border-left: 2px solid var(--neon-cyan);
+            border-top: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--neon-cyan);
+            border-bottom: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .section:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.1);
+        }
+
+        .section:hover::before,
+        .section:hover::after {
+            opacity: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-cyan);
+        }
+
+        .section-title::before {
+            content: '>';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .section-count {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-secondary);
+        }
+
+        .section-body {
+            padding: 1.5rem;
+        }
+
+        /* ============================================
+           TABLE STYLING
+           ============================================ */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table thead {
+            background: rgba(0, 245, 255, 0.05);
+        }
+
+        .data-table th {
+            padding: 0.5rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .data-table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(0, 245, 255, 0.03);
+        }
+
+        .data-table a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .data-table a:hover {
+            text-shadow: var(--glow-cyan);
+        }
+
+        /* ============================================
+           BADGES
+           ============================================ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 2px;
+            border: 1px solid currentColor;
+        }
+
+        .badge-success {
+            color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .badge-warning {
+            color: var(--neon-yellow);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .badge-danger {
+            color: var(--neon-red);
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .badge-info {
+            color: var(--neon-cyan);
+            background: rgba(0, 245, 255, 0.1);
+        }
+
+        .badge-muted {
+            color: var(--text-muted);
+            background: rgba(90, 90, 106, 0.1);
+        }
+
+        .status-code {
+            font-weight: 600;
+        }
+
+        .status-2xx {
+            color: var(--neon-green);
+        }
+
+        .status-3xx {
+            color: var(--neon-blue);
+        }
+
+        .status-4xx {
+            color: var(--neon-yellow);
+        }
+
+        .status-5xx {
+            color: var(--neon-red);
+        }
+
+        /* ============================================
+           CLASSIFICATION CARDS
+           ============================================ */
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .classification-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .classification-card:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 245, 255, 0.03);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.1);
+        }
+
+        .classification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .classification-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .classification-list {
+            list-style: none;
+        }
+
+        .classification-item {
+            padding: 4px 0;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .classification-item::before {
+            content: '•';
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           DORKS SECTION
+           ============================================ */
+        .dork-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dork-query {
+            font-size: 0.85rem;
+            color: var(--neon-yellow);
+            background: rgba(255, 215, 0, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .dork-links {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .dork-links li {
+            padding: 4px 0;
+            font-size: 0.8rem;
+        }
+
+        .dork-links a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+        }
+
+        .dork-links a:hover {
+            text-decoration: underline;
+        }
+
+        .dork-blocked {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 2px;
+            color: var(--neon-red);
+            font-size: 0.8rem;
+        }
+
+        /* ============================================
+           RECOMMENDATIONS
+           ============================================ */
+        .recommendations-list {
+            list-style: none;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 2px solid var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .recommendation-item:hover {
+            background: rgba(0, 245, 255, 0.05);
+            border-left-color: var(--neon-green);
+        }
+
+        .recommendation-icon {
+            font-size: 1rem;
+            color: var(--neon-cyan);
+            flex-shrink: 0;
+        }
+
+        .recommendation-text {
+            font-size: 0.85rem;
+        }
+
+        .recommendation-text strong {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+            background: linear-gradient(180deg, transparent, var(--bg-secondary));
+        }
+
+        .footer-logo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* ============================================
+           EMPTY STATE
+           ============================================ */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           PIXEL ART ICONS
+           ============================================ */
+        .pixel-icon {
+            width: 24px;
+            height: 24px;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 5px rgba(0, 245, 255, 0.5));
+        }
+
+        .pixel-icon.small {
+            width: 16px;
+            height: 16px;
+        }
+
+        .pixel-icon.large {
+            width: 32px;
+            height: 32px;
+        }
+
+        .stat-icon img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .recommendation-icon img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: #0a0a0f !important;
+                font-size: 10pt;
+            }
+
+            body::before,
+            body::after {
+                display: none !important;
+            }
+
+            .export-btn {
+                display: none !important;
+            }
+
+            .section,
+            .chart-panel {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .pie-chart,
+            .bar-fill {
+                animation: none !important;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-info {
+                align-items: center;
+            }
+
+            .pie-chart-container {
+                flex-direction: column;
+            }
+
+            .pie-chart {
+                width: 150px;
+                height: 150px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <img src="../assets/logo/LOGO CHDEVSEC BRANCO.png" alt="CHDEVSEC Logo" class="logo-image">
+                <span class="logo-text">CHDEVSEC</span>
+                <span class="logo-badge">Pentest</span>
+            </div>
+            <pre class="ascii-logo">
+ ██████╗██╗  ██╗██████╗ ███████╗██╗   ██╗███████╗███████╗ ██████╗
+██╔════╝██║  ██║██╔══██╗██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝
+██║     ███████║██║  ██║█████╗  ██║   ██║███████╗█████╗  ██║     
+██║     ██╔══██║██║  ██║██╔══╝  ╚██╗ ██╔╝╚════██║██╔══╝  ██║     
+╚██████╗██║  ██║██████╔╝███████╗ ╚████╔╝ ███████║███████╗╚██████╗
+ ╚═════╝╚═╝  ╚═╝╚═════╝ ╚══════╝  ╚═══╝  ╚══════╝╚══════╝ ╚═════╝
+            </pre>
+            <div class="header-info">
+                <button class="export-btn" onclick="window.print()">
+                    <img src="../assets/icons/fc11.png" class="pixel-icon small" alt="Download"> Export to PDF
+                </button>
+                <span class="header-target">// teste.com.br</span>
+                <span class="header-date">2026-01-21 10:54:26</span>
+            </div>
+        </header>
+
+        <!-- ============================================
+             DASHBOARD OVERVIEW - CHARTS
+             ============================================ -->
+        <section class="dashboard-overview">
+            <!-- PIE CHART: Subdomain Status Distribution -->
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <h2 class="chart-title"><img src="../assets/icons/fc6.png" class="pixel-icon" alt="Total">
+                        Distribuição</h2>
+                    <span class="chart-total">312</span>
+                </div>
+                <div class="pie-chart-container">
+                    <div class="pie-chart" data-total="312"
+                        style="--web-active: 0.3; --dns-only: 99.7; --timeouts: 0.0; --filtered: 0.0;">
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2120.png" class="pixel-icon small" alt="Green">
+                            <span class="legend-label">Web Ativos</span>
+                            <span class="legend-value">1</span>
+                            <span class="legend-percent">(0.3%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2119.png" class="pixel-icon small" alt="Blue">
+                            <span class="legend-label">DNS Only</span>
+                            <span class="legend-value">311</span>
+                            <span class="legend-percent">(99.7%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2118.png" class="pixel-icon small" alt="Yellow">
+                            <span class="legend-label">Timeouts</span>
+                            <span class="legend-value">0</span>
+                            <span class="legend-percent">(0.0%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <img src="../assets/icons/fc2117.png" class="pixel-icon small" alt="Orange">
+                            <span class="legend-label">Filtrados</span>
+                            <span class="legend-value">0</span>
+                            <span class="legend-percent">(0.0%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BAR CHART: Findings Summary -->
+            <div class="chart-panel">
+                <div class="chart-header">
+                    <h2 class="chart-title"><img src="../assets/icons/fc12.png" class="pixel-icon" alt="Stats"> Resumo
+                    </h2>
+                    <span class="chart-total">Overview</span>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">Subdomínios</span>
+                        <div class="bar-track">
+                            <div class="bar-fill cyan" style="width: 100%;">312</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Web Ativos</span>
+                        <div class="bar-track">
+                            <div class="bar-fill green" style="width: 0.3%;"></div>
+                        </div>
+                        <span class="bar-value">1</span>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Paths Sensíveis</span>
+                        <div class="bar-track">
+                            <div class="bar-fill red" style="width: 0.0%;"></div>
+                        </div>
+                        <span class="bar-value">0</span>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">Dorks c/ Resultado</span>
+                        <div class="bar-track">
+                            <div class="bar-fill purple" style="width: 0.0%;"></div>
+                        </div>
+                        <span class="bar-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             QUICK STATS CARDS
+             ============================================ -->
+        <section class="stats-row">
+            <div class="stat-card critical">
+                <div class="stat-icon"><img src="../assets/icons/fc2117.png" class="pixel-icon" alt="Critical"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Críticos</div>
+                </div>
+            </div>
+            <div class="stat-card apis">
+                <div class="stat-icon"><img src="../assets/icons/fc2118.png" class="pixel-icon" alt="API"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">APIs</div>
+                </div>
+            </div>
+            <div class="stat-card services">
+                <div class="stat-icon"><img src="../assets/icons/fc2120.png" class="pixel-icon" alt="Services"></div>
+                <div class="stat-content">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Serviços</div>
+                </div>
+            </div>
+            <div class="stat-card paths">
+                <div class="stat-icon"><img src="../assets/icons/fc2121.png" class="pixel-icon" alt="Paths"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Paths</div>
+                </div>
+            </div>
+            <div class="stat-card dorks">
+                <div class="stat-icon"><img src="../assets/icons/fc2119.png" class="pixel-icon" alt="Dorks"></div>
+                <div class="stat-content">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Dorks</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             SUBDOMÍNIOS WEB ATIVOS
+             ============================================ -->
+        <section class="section" id="subdomains">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc910.png" class="pixel-icon" alt="Fire">
+                    Subdomínios Ativos</h2>
+                <span class="section-count">1</span>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>IP</th>
+                            <th>Tecnologias</th>
+                            <th>Título</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+        <tr>
+            <td><a href="http://teste.com.br" target="_blank">http://teste.com.br</a></td>
+            <td><span class="status-code status-4xx">403</span></td>
+            <td>45.152.44.81</td>
+            <td>LiteSpeed</td>
+            <td>No Title</td>
+            <td></td>
+        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             CLASSIFICAÇÃO DE SUBDOMÍNIOS
+             ============================================ -->
+        <section class="section" id="classification">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc5.png" class="pixel-icon" alt="Shield">
+                    Classificação</h2>
+            </div>
+            <div class="section-body">
+                <div class="classification-grid">
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2117.png"
+                                    class="pixel-icon small" alt="Ruby"> Críticos</span>
+                            <span class="badge badge-danger">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2118.png"
+                                    class="pixel-icon small" alt="Gold"> APIs</span>
+                            <span class="badge badge-warning">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2120.png"
+                                    class="pixel-icon small" alt="Emerald"> Serviços</span>
+                            <span class="badge badge-success">1</span>
+                        </div>
+                        <ul class="classification-list">
+                            <li class="classification-item">teste.com.br</li>
+                        </ul>
+                    </div>
+                    <div class="classification-card">
+                        <div class="classification-header">
+                            <span class="classification-title"><img src="../assets/icons/fc2116.png"
+                                    class="pixel-icon small" alt="Silver"> Infra</span>
+                            <span class="badge badge-muted">0</span>
+                        </div>
+                        <ul class="classification-list">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             PATHS SENSÍVEIS
+             ============================================ -->
+        <section class="section" id="paths">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc859.png" class="pixel-icon" alt="Warning"> Paths
+                    Sensíveis</h2>
+                <span class="section-count">0</span>
+            </div>
+            <div class="section-body">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>Tipo</th>
+                            <th>Tamanho</th>
+                            <th>Risco</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ============================================
+             GOOGLE DORKS
+             ============================================ -->
+        <section class="section" id="dorks">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc9.png" class="pixel-icon" alt="Book"> Dorks</h2>
+                <span class="section-count">0</span>
+            </div>
+            <div class="section-body">
+                
+        <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <p class="empty-state-text">Nenhum resultado de dorks encontrado.</p>
+        </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             RECOMENDAÇÕES
+             ============================================ -->
+        <section class="section" id="recommendations">
+            <div class="section-header">
+                <h2 class="section-title"><img src="../assets/icons/fc856.png" class="pixel-icon" alt="Shield">
+                    Recomendações</h2>
+            </div>
+            <div class="section-body">
+                <ul class="recommendations-list">
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc5.png" class="pixel-icon"
+                                alt="Defense"></span>
+                        <span class="recommendation-text">Testar endpoints de login contra SQLi e Brute Force</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc9.png" class="pixel-icon"
+                                alt="Files"></span>
+                        <span class="recommendation-text">Remover arquivos sensíveis (.env, backups)</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc855.png" class="pixel-icon"
+                                alt="Secure"></span>
+                        <span class="recommendation-text">Implementar WAF e Rate Limiting</span>
+                    </li>
+                    <li class="recommendation-item">
+                        <span class="recommendation-icon"><img src="../assets/icons/fc13.png" class="pixel-icon"
+                                alt="Question"></span>
+                        <span class="recommendation-text">Desativar subdomínios não utilizados</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-logo">
+                <img src="../assets/logo/LOGO CHDEVSEC BRANCO.png" alt="CHDEVSEC"
+                    style="height: 30px; filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));">
+            </div>
+            <p class="footer-text">
+                Relatório gerado por <strong>Recon Pro</strong> | Pentester: Caio Silva
+            </p>
+            <p class="footer-text" style="margin-top: 4px; opacity: 0.6;">
+                Confidencial - Uso interno
+            </p>
+            <div class="footer-links">
+                <a href="https://github.com/chdevsec" target="_blank">→ GitHub</a>
+                <a href="https://instagram.com/chdevsec" target="_blank">→ Instagram</a>
+                <a href="mailto:chdevsec@gmail.com">→ Contact</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ============================================
+            // CHDEVSEC DASHBOARD v2.0 - Enhanced Animations
+            // ============================================
+
+            // Scroll Reveal Animation
+            const revealElements = document.querySelectorAll('.section, .chart-panel, .stat-card');
+
+            const revealOnScroll = () => {
+                revealElements.forEach((el, index) => {
+                    const rect = el.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight - 100;
+
+                    if (isVisible && !el.classList.contains('revealed')) {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(30px)';
+
+                        setTimeout(() => {
+                            el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                            el.classList.add('revealed');
+                        }, index * 100);
+                    }
+                });
+            };
+
+            // Initial reveal
+            revealOnScroll();
+            window.addEventListener('scroll', revealOnScroll);
+
+            // Animate counters with easing
+            document.querySelectorAll('.stat-value, .legend-value').forEach(el => {
+                const target = parseInt(el.textContent) || 0;
+                if (target > 0) {
+                    el.textContent = '0';
+                    let current = 0;
+                    const duration = 1500;
+                    const startTime = Date.now();
+
+                    const animate = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Easing function
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        current = Math.floor(eased * target);
+                        el.textContent = current;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            el.textContent = target;
+                        }
+                    };
+
+                    // Delay start for staggered effect
+                    setTimeout(animate, 500);
+                }
+            });
+
+            // Glitch effect on logo text
+            const glitchText = document.querySelector('.logo-text');
+            if (glitchText) {
+                setInterval(() => {
+                    glitchText.style.textShadow = `
+                        ${Math.random() * 4 - 2}px 0 var(--neon-cyan),
+                        ${Math.random() * 4 - 2}px 0 var(--neon-purple)
+                    `;
+                    setTimeout(() => {
+                        glitchText.style.textShadow = 'none';
+                    }, 50);
+                }, 3000);
+            }
+
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            console.log('%c CHDEVSEC Dashboard v2.0 ',
+                'background: #00f5ff; color: #0a0a0f; font-weight: bold; padding: 5px 10px;');
+        });
+    </script>
+</body>
+
+</html>
