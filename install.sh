@@ -195,6 +195,13 @@ check_tool_status "amass"
 check_tool_status "findomain"
 check_tool_status "httprobe"
 
-echo -e "\n${YELLOW}[!] IMPORTANTE: Se alguma ferramenta falhou, tente rodar este script novamente ou verifique sua conexão.${NC}"
+# 6. Ajuste de Permissões (Caso tenha rodado com sudo)
+if [ -n "$SUDO_USER" ]; then
+    echo -e "\n${YELLOW}[*] Ajustando permissões do diretório para o usuário $SUDO_USER...${NC}"
+    chown -R $SUDO_USER:$SUDO_USER .
+    echo -e "${GREEN}[✓] Permissões corrigidas.${NC}"
+fi
+
+echo -e "${YELLOW}[!] IMPORTANTE: Se alguma ferramenta falhou, tente rodar este script novamente ou verifique sua conexão.${NC}"
 echo -e "${YELLOW}[!] Pode ser necessário reiniciar seu terminal para carregar o novo PATH.${NC}"
 echo -e "${YELLOW}[!] Execute: source ~/.bashrc (ou ~/.zshrc)${NC}"

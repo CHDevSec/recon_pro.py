@@ -1256,8 +1256,15 @@ def generate_html_report(domain, live_subs, findings, dork_results, classificati
     for placeholder, value in replacements.items():
         html_output = html_output.replace(placeholder, value)
     
-    with open(report_path, "w", encoding="utf-8") as f:
-        f.write(html_output)
+    try:
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write(html_output)
+    except PermissionError:
+        print(f"\n[!] ERRO CRÍTICO: Permissão negada ao salvar o relatório em {report_path}")
+        print(f"    O arquivo ou diretório pertence ao usuário 'root'.")
+        print(f"    SOLUÇÃO IMEDIATA: Execute o comando abaixo e tente novamente:")
+        print(f"    sudo chown -R $USER:$USER {os.path.abspath(OUTPUT_DIR)}")
+        return None
     
     print(f"  ✅ Relatório HTML gerado: {report_path}")
     return report_path
@@ -1287,9 +1294,14 @@ a{{color:#00f5ff}}</style></head>
 <h2>Dorks ({len(dork_results)})</h2><p>{len(dork_results)} resultados encontrados</p>
 <footer><p>CHDEVSEC - Recon Pro</p></footer></body></html>'''
     
-    with open(report_path, "w", encoding="utf-8") as f:
-        f.write(html)
+    try:
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write(html)
+    except PermissionError:
+        print(f"\n[!] ERRO: Permissão negada ao salvar relatório básico em {report_path}")
+        return None
     
+    print(f"  ✅ Relatório HTML básico gerado: {report_path}")
     return report_path
 
 def select_technology():
