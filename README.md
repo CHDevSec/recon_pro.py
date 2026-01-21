@@ -149,6 +149,22 @@ API_KEYS = {
 }
 ```
 
+```
+
+---
+
+## <img src="assets/icons/fc869.png" width="30" style="vertical-align: middle;"> Troubleshooting
+
+### <img src="assets/icons/fc859.png" width="20" style="vertical-align: middle;"> Permission Denied Error
+If you encounter a `PermissionError` when generating reports (e.g., `[Errno 13] Permission denied`), it means the output directory is owned by `root`. This usually happens if you ran the tool with `sudo` previously.
+
+**Solution:**
+Fix the permissions for your current user by running:
+
+```bash
+sudo chown -R $USER:$USER .
+```
+
 ---
 
 ## <img src="assets/icons/fc870.png" width="30" style="vertical-align: middle;"> Legal Disclaimer
