@@ -210,20 +210,32 @@ def print_final_summary(domain, tech_type, subdomains, classification, report_pa
     border_bot = f"{BLUE}╚{'═' * 72}╝{RESET}"
     line_empty = f"{BLUE}║{RESET}"
     
-    def center_text(text, width=72, color=""):
-        """Centraliza texto dentro da borda"""
-        clean_text = text
-        # Remove códigos ANSI para calcular tamanho real
+    def get_visual_len(text):
+        """Calcula comprimento visual ignorando ANSI e ajustando emojis"""
         import re
-        text_len = len(re.sub(r'\033\[[0-9;]*m', '', clean_text))
-        padding = (width - text_len) // 2
-        return f"{BLUE}║{RESET}{' ' * padding}{text}{' ' * (width - text_len - padding)}{BLUE}║{RESET}"
+        # Remove ANSI color codes
+        clean = re.sub(r'\033\[[0-9;]*m', '', text)
+        length = len(clean)
+        
+        # Emojis que ocupam 2 espaços visuais (Double Width)
+        # Atenção: "⚠" confirmado como double-width no terminal do usuário.
+        double_width_chars = ["🎯", "📊", "📁", "💀", "📂", "🔗", "⚠"]
+        for char in double_width_chars:
+            if char in clean:
+                length += clean.count(char)
+        return length
+
+    def center_text(text, width=72, color=""):
+        """Centraliza texto dentro da borda ajustando emojis"""
+        v_len = get_visual_len(text)
+        padding = (width - v_len) // 2
+        extra = (width - v_len) % 2 # Correção para ímpar
+        return f"{BLUE}║{RESET}{' ' * padding}{text}{' ' * (padding + extra)}{BLUE}║{RESET}"
     
     def left_text(text, width=72, indent=4):
-        """Alinha texto à esquerda dentro da borda"""
-        import re
-        text_len = len(re.sub(r'\033\[[0-9;]*m', '', text))
-        padding = width - text_len - indent
+        """Alinha texto à esquerda dentro da borda ajustando emojis"""
+        v_len = get_visual_len(text)
+        padding = width - v_len - indent
         return f"{BLUE}║{RESET}{' ' * indent}{text}{' ' * max(0, padding)}{BLUE}║{RESET}"
     
     # ASCII Art de conclusão (menor, no mesmo estilo)
@@ -268,14 +280,22 @@ def print_final_summary(domain, tech_type, subdomains, classification, report_pa
     print(center_text(f"{BOLD}{GREEN}📁 DASHBOARD / RELATÓRIO{RESET}"))
     print(f"{BLUE}║{' ' * 72}║{RESET}")
     
-    # Caminho do relatório (destacado)
-    print(left_text(f"{DIM}Arquivo:{RESET}"))
-    print(left_text(f"{CYAN}{BOLD}{abs_report_path}{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
-    
-    # Link clicável (para terminais que suportam)
-    file_url = f"file:///{abs_report_path.replace(os.sep, '/')}"
-    print(left_text(f"{DIM}URL:{RESET} {CYAN}\033]8;;{file_url}\033\\{file_url}\033]8;;\033\\{RESET}"))
+    # Caminho do relatório (Simplificado para não quebrar o layout)
+    # Pega apenas o caminho relativo (ex: recon_results/relatorio.html)
+    try:
+        rel_path = os.path.relpath(report_path)
+    except:
+        rel_path = report_path
+
+    # Trunca se for muito longo para caber na caixa (max 65 chars)
+    if len(rel_path) > 65:
+        display_path = "..." + rel_path[-62:]
+    else:
+        display_path = rel_path
+
+    print(left_text(f"{DIM}Gerado em:{RESET}"))
+    print(left_text(f"{CYAN}{BOLD}{display_path}{RESET}"))
+    print(left_text(f"{DIM}(Disponível na pasta {OUTPUT_DIR}){RESET}"))
     print(f"{BLUE}║{' ' * 72}║{RESET}")
     
     # Borda inferior
