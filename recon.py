@@ -204,39 +204,8 @@ def print_final_summary(domain, tech_type, subdomains, classification, report_pa
     timeouts = len(classification['timeout'])
     filtered = len(classification['filtered'])
     
-    # Linha decorativa
-    border_top = f"{BLUE}╔{'═' * 72}╗{RESET}"
-    border_mid = f"{BLUE}╠{'═' * 72}╣{RESET}"
-    border_bot = f"{BLUE}╚{'═' * 72}╝{RESET}"
-    line_empty = f"{BLUE}║{RESET}"
     
-    def get_visual_len(text):
-        """Calcula comprimento visual ignorando ANSI e ajustando emojis"""
-        import re
-        # Remove ANSI color codes
-        clean = re.sub(r'\033\[[0-9;]*m', '', text)
-        length = len(clean)
-        
-        # Emojis que ocupam 2 espaços visuais (Double Width)
-        # Atenção: "⚠" confirmado como double-width no terminal do usuário.
-        double_width_chars = ["🎯", "📊", "📁", "💀", "📂", "🔗", "⚠"]
-        for char in double_width_chars:
-            if char in clean:
-                length += clean.count(char)
-        return length
-
-    def center_text(text, width=72, color=""):
-        """Centraliza texto dentro da borda ajustando emojis"""
-        v_len = get_visual_len(text)
-        padding = (width - v_len) // 2
-        extra = (width - v_len) % 2 # Correção para ímpar
-        return f"{BLUE}║{RESET}{' ' * padding}{text}{' ' * (padding + extra)}{BLUE}║{RESET}"
-    
-    def left_text(text, width=72, indent=4):
-        """Alinha texto à esquerda dentro da borda ajustando emojis"""
-        v_len = get_visual_len(text)
-        padding = width - v_len - indent
-        return f"{BLUE}║{RESET}{' ' * indent}{text}{' ' * max(0, padding)}{BLUE}║{RESET}"
+    # ASCII Art de conclusão (menor, no mesmo estilo)
     
     # ASCII Art de conclusão (menor, no mesmo estilo)
     print(f"\n{BLUE}")
@@ -250,56 +219,41 @@ def print_final_summary(domain, tech_type, subdomains, classification, report_pa
     """)
     print(f"{RESET}")
     
-    # Box do resumo
-    print(border_top)
-    print(center_text(f"{BOLD}{CYAN}🎯 RECON PROFISSIONAL FINALIZADO [V2.0]{RESET}"))
-    print(center_text(f"{DIM}{WHITE}─────────────────────────────────{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
+    # Layout limpo sem caixa
+    print(f"\n{BLUE}{'=' * 74}{RESET}")
+    print(f" {BOLD}{CYAN}🎯 RECON PROFISSIONAL FINALIZADO [V2.0]{RESET}")
+    print(f"{BLUE}{'=' * 74}{RESET}")
     
     # Info do domínio
-    print(left_text(f"{YELLOW}◆ ALVO:{RESET}       {WHITE}{BOLD}{domain}{RESET}"))
-    print(left_text(f"{YELLOW}◆ TECNOLOGIA:{RESET} {WHITE}{tech_type.upper()}{RESET}"))
-    print(left_text(f"{YELLOW}◆ DATA:{RESET}       {WHITE}{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
+    print(f" {YELLOW}◆ ALVO:{RESET}       {WHITE}{BOLD}{domain}{RESET}")
+    print(f" {YELLOW}◆ TECNOLOGIA:{RESET} {WHITE}{tech_type.upper()}{RESET}")
+    print(f" {YELLOW}◆ DATA:{RESET}       {WHITE}{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{RESET}")
+    print(f"{BLUE}{'-' * 74}{RESET}")
     
-    # Separador
-    print(border_mid)
-    print(center_text(f"{BOLD}{MAGENTA}📊 RESULTADOS DO RECON{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
+    # Seção de Resultados
+    print(f" {BOLD}{MAGENTA}📊 RESULTADOS DO RECON{RESET}")
+    print(f"{BLUE}{'-' * 74}{RESET}")
     
-    # Estatísticas com cores
-    print(left_text(f"{GREEN}✔{RESET}  Subdomínios Descobertos (DNS)  {DIM}......................{RESET} {BOLD}{WHITE}{total_subs}{RESET}"))
-    print(left_text(f"{GREEN}✔{RESET}  Web Ativos (HTTP/HTTPS)        {DIM}......................{RESET} {BOLD}{GREEN}{web_active}{RESET}"))
-    print(left_text(f"{YELLOW}⚠{RESET}  DNS Ativos sem HTTP            {DIM}......................{RESET} {BOLD}{YELLOW}{dns_only}{RESET}"))
-    print(left_text(f"{RED}⏳{RESET} Timeouts                        {DIM}......................{RESET} {BOLD}{DIM}{timeouts}{RESET}"))
-    print(left_text(f"{RED}🚫{RESET} Filtrados/Bloqueados            {DIM}......................{RESET} {BOLD}{DIM}{filtered}{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
+    print(f" {GREEN}✔{RESET}  Subdomínios Descobertos (DNS)  {DIM}......................{RESET} {BOLD}{WHITE}{total_subs}{RESET}")
+    print(f" {GREEN}✔{RESET}  Web Ativos (HTTP/HTTPS)        {DIM}......................{RESET} {BOLD}{GREEN}{web_active}{RESET}")
+    print(f" {YELLOW}⚠{RESET}  DNS Ativos sem HTTP            {DIM}......................{RESET} {BOLD}{YELLOW}{dns_only}{RESET}")
+    print(f" {RED}⏳{RESET} Timeouts                        {DIM}......................{RESET} {BOLD}{DIM}{timeouts}{RESET}")
+    print(f" {RED}🚫{RESET} Filtrados/Bloqueados            {DIM}......................{RESET} {BOLD}{DIM}{filtered}{RESET}")
+    print(f"{BLUE}{'-' * 74}{RESET}")
     
-    # Separador
-    print(border_mid)
-    print(center_text(f"{BOLD}{GREEN}📁 DASHBOARD / RELATÓRIO{RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
+    # Seção de Relatório
+    print(f" {BOLD}{GREEN}📁 DASHBOARD / RELATÓRIO{RESET}")
     
-    # Caminho do relatório (Simplificado para não quebrar o layout)
-    # Pega apenas o caminho relativo (ex: recon_results/relatorio.html)
+    # Caminho do relatório (Simplificado)
     try:
         rel_path = os.path.relpath(report_path)
     except:
         rel_path = report_path
-
-    # Trunca se for muito longo para caber na caixa (max 65 chars)
-    if len(rel_path) > 65:
-        display_path = "..." + rel_path[-62:]
-    else:
-        display_path = rel_path
-
-    print(left_text(f"{DIM}Gerado em:{RESET}"))
-    print(left_text(f"{CYAN}{BOLD}{display_path}{RESET}"))
-    print(left_text(f"{DIM}(Disponível na pasta {OUTPUT_DIR}){RESET}"))
-    print(f"{BLUE}║{' ' * 72}║{RESET}")
-    
-    # Borda inferior
-    print(border_bot)
+        
+    print(f" {DIM}Gerado em:{RESET}")
+    print(f" {CYAN}{BOLD}{rel_path}{RESET}")
+    print(f" {DIM}(Disponível na pasta {OUTPUT_DIR}){RESET}")
+    print(f"{BLUE}{'=' * 74}{RESET}")
     
     # Créditos
     print(f"\n{BLUE}{'─' * 74}{RESET}")
@@ -1364,11 +1318,53 @@ def select_technology():
     
     return tech_map.get(choice, "generic")
 
+def run_mock_mode(domain):
+    """Executa modo de simulação visual (UI Mock)"""
+    print(f"\n[!] MODO UI-TEST (MOCK) ATIVADO")
+    time.sleep(0.5)
+    
+    # 1. Simula Logs de Progresso
+    print(f"\n[+] Coletando subdomínios...")
+    print(f"  🔍 Executando subfinder (MOCK)...")
+    print(f"    ✅ 23 subdomínios encontrados")
+    time.sleep(0.3)
+    print(f"  🔍 Consultando Shodan (MOCK)...")
+    print(f"    ✅ 5 subdomínios encontrados")
+    
+    print(f"\n[+] Verificando subdomínios...")
+    print(f"  ✅ [WEB ACTIVE] https://admin.{domain} (200) | Laravel")
+    print(f"  ✅ [WEB ACTIVE] https://api.{domain} (403) | Node.js")
+    print(f"  ⚠️ [DNS ONLY] internal.{domain} | IP: 192.168.1.10")
+    print(f"  RED [TIMEOUT] dev.{domain}")
+    
+    print(f"\n[*] Iniciando fuzzing em hosts ativos...")
+    print(f"  [+] [1/2] Encontrados 2 paths críticos em https://admin.{domain}")
+    
+    # 2. Dados Mockados para o Resumo
+    mock_subs = [f"sub{i}.{domain}" for i in range(15)]
+    mock_classification = {
+        "web_active": [
+            {"url": f"https://admin.{domain}", "status": 200, "tech": "Laravel", "ip": "10.0.0.1", "title": "Admin Login", "login_detected": True},
+            {"url": f"https://api.{domain}", "status": 200, "tech": "Node.js", "ip": "10.0.0.2", "title": "API Gateway", "login_detected": False},
+        ],
+        "dns_only": [{"url": f"http://vpn.{domain}", "ip": "10.0.0.3"} for _ in range(5)],
+        "timeout": [{"url": f"http://legacy.{domain}", "ip": "10.0.0.4"} for _ in range(2)],
+        "filtered": []
+    }
+    
+    # Caminho Mock
+    mock_report = os.path.join(OUTPUT_DIR, f"recon_report_{domain}_MOCK.html")
+    
+    # 3. Chama Resumo Visual e Encerra
+    print_final_summary(domain, "laravel", mock_subs, mock_classification, mock_report)
+    sys.exit(0)
+
 def main():
     parser = argparse.ArgumentParser(description='Recon Web Profissional')
     parser.add_argument('domain', help='Domínio alvo')
     parser.add_argument('--dork-type', default='all', help='Tipo de dork (all, login, files, admin)')
     parser.add_argument('--mode', choices=['strict', 'soft'], default='strict', help='Modo de verificação (strict: apenas HTTP ativo, soft: considera DNS/Timeout)')
+    parser.add_argument('--ui-test', action='store_true', help='Modo de teste de UI (Mock)')
     args = parser.parse_args()
     
     domain = args.domain.lower().replace("https://", "").replace("http://", "").split("/")[0]
@@ -1384,6 +1380,9 @@ def main():
         TIMEOUT = 10
     
     banner()
+    
+    if args.ui_test:
+        run_mock_mode(domain)
     
     # Seleção de tecnologia
     tech_type = select_technology()

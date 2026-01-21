@@ -70,10 +70,10 @@
 <br>
 
 <div align="center">
-  <!-- Placeholder for CLI if needed later -->
-  <img src="assets/img/cli_output.png" alt="CLI Output Placeholder" width="85%" style="opacity: 0.5;">
+  <!-- CLI Output -->
+  <img src="assets/public/output_cli.png" alt="CLI Output" width="85%" style="border-radius: 6px;">
   <br>
-  <em><img src="assets/icons/fc13.png" width="15"> CLI Output (Run the tool to see it live!)</em>
+  <em><img src="assets/icons/fc13.png" width="15"> Professional CLI Output</em>
 </div>
 
 ---
