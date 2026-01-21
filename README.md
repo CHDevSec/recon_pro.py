@@ -1,15 +1,6 @@
 # <img src="assets/icons/fc12.png" width="40" style="vertical-align: middle;"> RECON PRO - Ultimate Web Reconnaissance
 
 <div align="center">
-  <!-- PLACEHOLDER FOR TOOL GIF -->
-  <br>
-  <img src="assets/img/tool_demo.gif" alt="Recon Pro Demo GIF (Add your GIF here)" width="100%">
-  <br>
-  <em>(Replace this line with your tool demonstration GIF)</em>
-  <br><br>
-</div>
-
-<div align="center">
 
   <img src="assets/icons/fc2119.png" width="20"> **Active Development** &nbsp;&nbsp;
   <img src="assets/icons/fc2117.png" width="20"> **Python 3.x** &nbsp;&nbsp;
@@ -114,23 +105,32 @@ chmod +x install.sh
 
 ## <img src="assets/icons/fc910.png" width="30" style="vertical-align: middle;"> Usage
 
-### Basic Scan
-Simply run the python script with your target domain.
+The tool operates in different modes to suit your reconnaissance needs.
+
+### <img src="assets/icons/fc855.png" width="20" style="vertical-align: middle;"> Level 1: Basic Scan (Standard)
+Run the tool against a target domain. You will be prompted to interactively select the target technology (e.g., PHP, Node.js) to tailor the payloads.
 
 ```bash
 python3 recon.py target.com
 ```
 
-### Interactive Mode
-The tool will prompt you to select the target technology for specialized attacks:
+### <img src="assets/icons/fc2118.png" width="20" style="vertical-align: middle;"> Level 2: Focused Dorking (Intermediate)
+Refine your Google Dorking to look for specific vulnerability types only, reducing noise and API usage.
 
-```text
-[+] Select target technology for specific tests:
-  1. PHP
-  2. Node.js
-  3. Next.js
-  4. Angular
-  ...
+```bash
+# Search only for login portals and admin panels
+python3 recon.py target.com --dork-type login
+
+# Search only for sensitive files (.env, .sql, backups)
+python3 recon.py target.com --dork-type files
+```
+
+### <img src="assets/icons/fc859.png" width="20" style="vertical-align: middle;"> Level 3: Deep Recon (Advanced)
+Use **Soft Mode** to capture all DNS records, including subdomains that did not respond to HTTP probing (Timeouts/Connection Refused). This is useful to broaden the attack surface beyond just web servers.
+
+```bash
+# Enable Soft Mode (Includes DNS-only results in the report)
+python3 recon.py target.com --mode soft
 ```
 
 ---
@@ -158,6 +158,12 @@ API_KEYS = {
 *   <img src="assets/icons/fc859.png" width="15"> **Do not** use this tool against systems you do not have explicit permission to test.
 *   The developers (**CHDEVSEC**) assume no liability and are not responsible for any misuse or damage caused by this program.
 *   Always follow responsible disclosure policies.
+
+---
+
+## <img src="assets/icons/fc2118.png" width="30" style="vertical-align: middle;"> License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
